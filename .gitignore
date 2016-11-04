@@ -1,0 +1,9 @@
+obj/
+bin/
+*.suo
+/*.js
+*.js.map
+.ntvs*
+*.log
+node_modules/
+build/

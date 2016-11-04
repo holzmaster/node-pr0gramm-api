@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es6",
+		"outDir": "build",
+		"declaration": true,
+		"sourceMap": false,
+		"newLine": "LF",
+		"removeComments": true,
+		"noImplicitAny": true,
+		"noImplicitThis": true,
+		"noImplicitReturns": true,
+		"strictNullChecks": true
+	},
+	"exclude": [
+		"build"
+	]
+}

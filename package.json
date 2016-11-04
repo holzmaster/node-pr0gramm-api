@@ -1,0 +1,18 @@
+{
+  "name": "pr0gramm-api",
+  "version": "1.0.0",
+  "description": "Node.js pr0gramm API",
+  "main": "build/lib.js",
+  "scripts": {
+    "test": "tsc"
+  },
+  "keywords": [
+    "pr0gramm"
+  ],
+  "repository": "git@github.com:holzmaster/node-pr0gramm-api.git",
+  "author": "holzmaster",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@types/node": "^6.0.46"
+  }
+}
