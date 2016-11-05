@@ -27,6 +27,7 @@ export class Pr0grammAPI {
 	public readonly tags: Pr0grammTagsService;
 	public readonly comments: Pr0grammCommentsService;
 	public readonly profile: Pr0grammProfileService;
+	public readonly contact: Pr0grammContactService;
 
 	private readonly _requester: APIRequester;
 
@@ -40,6 +41,7 @@ export class Pr0grammAPI {
 		this.tags = new Pr0grammTagsService(req);
 		this.comments = new Pr0grammCommentsService(req);
 		this.profile = new Pr0grammProfileService(req);
+		this.contact = new Pr0grammContactService(req);
 	}
 }
 
@@ -275,6 +277,16 @@ export class Pr0grammTagsService {
 	public vote(id: Types.TagID, absoluteVote: Types.Vote): Promise<Response.Pr0grammResponse> {
 		const path = `/tags/vote`;
 		return this._requester.post(path, { id, vote: absoluteVote });
+	}
+}
+
+export class Pr0grammContactService {
+	constructor(private readonly _requester: APIRequester) {
+	}
+
+	public send(email: Types.Email, subject: string, message: string): Promise<Response.Pr0grammResponse> {
+		const path = `/contact/send`;
+		return this._requester.post(path, { email, subject, message });
 	}
 }
 
