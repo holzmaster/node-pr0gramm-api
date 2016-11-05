@@ -28,7 +28,7 @@ export type FullSizeURL = Pr0grammURL;
 export type BadgeImageURL = Pr0grammURL;
 export type BadgeLinkURL = Pr0grammURL;
 
-export const enum UserMark {
+export enum UserMark {
 	Schwuchtel = 0,
 	Neuschwuchtel = 1,
 	Altschwuchtel = 2,
@@ -41,13 +41,13 @@ export const enum UserMark {
 	EdlerSpender = 9,
 }
 
-export const enum Vote {
+export enum Vote {
 	Down = -1,
 	None = 0,
 	Up = 1,
 }
 
-export const enum ItemFlags {
+export enum ItemFlags {
 	SFW = 1,
 	NSFW = 2,
 	NSFL = 4,
@@ -55,7 +55,7 @@ export const enum ItemFlags {
 }
 
 /*
-export const enum PromotionStatus {
+export enum PromotionStatus {
 	None = 0,
 	Promoted = 1
 }
