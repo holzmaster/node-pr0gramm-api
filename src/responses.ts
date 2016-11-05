@@ -44,3 +44,46 @@ export interface GetProfileInfoResponse extends Pr0grammResponse {
 export interface GetDetailsResponse extends Pr0grammResponse {
 	tags: Types.ItemTagDetails[];
 }
+
+export interface ChangeUserDataResponse extends Pr0grammResponse {
+	account: string; // ??
+	error: string | null | undefined; // ??
+}
+
+export interface GetFollowListReponse extends Pr0grammResponse {
+	list: Types.FollowedUser[];
+}
+
+export interface GetUserInfoResponse extends Pr0grammResponse {
+	account: Types.AccountInfo;
+	invited: Types.InvitingUser[];
+}
+
+export interface TokenResponse extends Pr0grammResponse {
+	tokenError: string | null; // ??
+	error: string | null | undefined; // ??
+}
+
+export interface LoadInviteResponse extends Pr0grammResponse {
+	inviter: Types.InvitingUser;
+	email: Types.Email;
+}
+
+export interface TokenInfoResponse extends Pr0grammResponse {
+	token: Types.Token | null;
+}
+
+export interface LogInResponse extends Pr0grammResponse {
+	ban: Types.BanInfo | null;
+}
+
+export interface SyncResponse extends Pr0grammResponse {
+	inboxCount: number;
+	log: Types.LogItem[] | string; // TODO
+	logLength: number;
+	score: Types.Score;
+}
+
+export interface SuccessableResponse extends Pr0grammResponse {
+	success: boolean;
+}

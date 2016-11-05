@@ -2,13 +2,21 @@ export type ItemID = number;
 export type UserID = number;
 export type CommentID = number;
 export type TagID = number;
+export type SyncID = number;
 export type PromotedID = number;
 
 export type Score = number;
+export type LogItem = Object; // TODO
 
 export type TagList = string;
+export type SessionID = string;
+export type ChangeEmailToken = string;
+export type ChangePasswordToken = string;
+export type InviteToken = string;
+export type PaymentToken = string;
 
 export type Username = string;
+export type Password = string;
 export type Email = string;
 export type Confidence = number;
 export type UnixTimestamp = number;
@@ -18,7 +26,7 @@ export type BanDuration = number; // In days
 export type Likes = string; // TODO: What is this?
 export type Pr0grammError = Object;
 
-export type Cache = string;
+export type Cache = string | null;
 export type Roundtrip = number;
 
 export type Pr0grammURL = string;
@@ -182,4 +190,48 @@ export type DeleteItemReason = "Regel #1 - Bild unzureichend getagged (nsfw/nsfl
 
 export interface KeyValue<T> {
 	[index: string]: T;
+}
+
+export interface MeCookie {
+	a: number;
+	fl: number;
+	id: SessionID;
+	lv: Timestamp;
+	n: Username;
+	paid: boolean;
+	pp: boolean;
+	t: number;
+	vm: boolean;
+	vv: number;
+}
+
+export interface AccountInfo {
+	likesArePublic: boolean;
+	email: Email;
+	invites: number;
+	mark: UserMark;
+	markDefault: UserMark;
+	paidUntil: Timestamp;
+}
+
+/**
+ * Unable to test, no $$$ :(
+ */
+export interface Token {
+	// TODO?
+	product: TokenProduct;
+}
+
+/**
+ * Unable to test, no $$$ :(
+ */
+export interface TokenProduct {
+	// TODO?
+	days: number;
+}
+
+export interface BanInfo {
+	banned: boolean;
+	till: Timestamp | null;
+	reason: string | null;
 }

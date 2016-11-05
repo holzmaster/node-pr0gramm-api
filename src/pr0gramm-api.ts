@@ -27,6 +27,7 @@ export class Pr0grammAPI {
 	public readonly comments: Pr0grammCommentsService;
 	public readonly profile: Pr0grammProfileService;
 	public readonly contact: Pr0grammContactService;
+	public readonly user: Pr0grammUserService;
 
 	private readonly _requester: APIRequester;
 
@@ -41,6 +42,7 @@ export class Pr0grammAPI {
 		this.comments = new Pr0grammCommentsService(req);
 		this.profile = new Pr0grammProfileService(req);
 		this.contact = new Pr0grammContactService(req);
+		this.user = new Pr0grammUserService(req);
 	}
 }
 
@@ -58,6 +60,7 @@ export class APIRequester {
 			request.get(url, {
 				qs: data || {},
 				headers: APIRequester._headers,
+				jar: this.cookies,
 				json: true,
 			}, (err, response, body) => {
 				if (err)
@@ -287,6 +290,123 @@ export class Pr0grammContactService {
 		const path = `/contact/send`;
 		return this._requester.post(path, { email, subject, message });
 	}
+}
+
+export class Pr0grammUserService {
+	constructor(private readonly _requester: APIRequester) {
+	}
+
+	public ban(user: Types.Username, reason: string, days: Types.BanDuration): Promise<Response.Pr0grammResponse> {
+		const path = `/user/ban`;
+		return this._requester.post(path, { user, reason, days });
+	}
+	public changeEmail(token: Types.ChangeEmailToken): Promise<Response.ChangeUserDataResponse> {
+		const path = `/user/changeemail`;
+		return this._requester.post(path, { token });
+	}
+	public changePassword(newPassword: Types.Password): Promise<Response.ChangeUserDataResponse> {
+		const path = `/user/changepassword`;
+		return this._requester.post(path, { password: newPassword });
+	}
+
+	public getFollowList(flags: Types.ItemFlags): Promise<Response.GetFollowListReponse> {
+		const path = `/user/followlist`;
+		return this._requester.get(path, { flags });
+	}
+
+	public getInfo(): Promise<Response.GetUserInfoResponse> {
+		const path = `/user/info`;
+		return this._requester.get(path);
+	}
+
+	public invite(email: Types.Email): Promise<Response.ChangeUserDataResponse> {
+		const path = `/user/invite`;
+		return this._requester.post(path, { email });
+	}
+
+	/**
+	 * ????
+	 */
+	public joinWithInvite(token: Types.InviteToken, email: Types.Email, password: Types.Password, name: Types.Username): Promise<Response.ChangeUserDataResponse> {
+		const path = `/user/joinwithinvite`;
+		return this._requester.post(path, { token, email, password, name });
+	}
+	/**
+	 * ????
+	 */
+	public joinWithToken(token: Types.InviteToken, email: Types.Email, password: Types.Password, name: Types.Username): Promise<Response.TokenResponse> {
+		const path = `/user/joinwithtoken`;
+		return this._requester.post(path, { token, email, password, name });
+	}
+
+	public loadInvite(token: Types.InviteToken): Promise<Response.LoadInviteResponse> {
+		const path = `/user/loadinvite`;
+		return this._requester.get(path, { token });
+	}
+
+	public loadPaymentToken(token: Types.PaymentToken): Promise<Response.TokenInfoResponse> {
+		const path = `/user/loadpaymenttoken`;
+		return this._requester.post(path, { token });
+	}
+
+	public login(name: Types.Username, password: Types.Password): Promise<Response.LogInResponse> {
+		const path = `/user/login`;
+		return this._requester.post(path, { name, password });
+	}
+
+	public logout(id: Types.SessionID): Promise<Response.Pr0grammResponse> {
+		const path = `/user/logout`;
+		return this._requester.post(path, { id });
+	}
+
+	/**
+	 * ????
+	 */
+	public redeemToken(token: Types.InviteToken): Promise<Response.TokenResponse> {
+		const path = `/user/redeemtoken`;
+		return this._requester.post(path, { token });
+	}
+
+	public requestEmailChange(newEmail: Types.Email): Promise<Response.ChangeUserDataResponse> {
+		const path = `/user/requestemailchange`;
+		return this._requester.post(path, { email: newEmail });
+	}
+
+	public resetPassword(name: Types.Username, password: Types.Password, token: Types.ChangePasswordToken): Promise<Response.ChangeUserDataResponse> {
+		const path = `/user/resetpassword`;
+		return this._requester.post(path, { name, password, token });
+	}
+
+	public sendPasswordResetMail(email: Types.Email): Promise<Response.Pr0grammResponse> {
+		const path = `/user/sendpasswordresetmail`;
+		return this._requester.post(path, { email });
+	}
+
+	public setSiteSettings(siteSettings: SiteSettingsOptions): Promise<Response.ChangeUserDataResponse> {
+		const path = `/user/sitesettings`;
+		const options = {
+			likesArePublic: siteSettings.likesArePublic,
+			showAds: siteSettings.showAds,
+			userStatus: "um" + siteSettings.userStatus
+		};
+		return this._requester.post(path, options);
+	}
+
+	public sync(offset: Types.SyncID): Promise<Response.SyncResponse> {
+		const path = `/user/sync`;
+		return this._requester.get(path, { offset });
+	}
+
+	public validate(token: Types.Token): Promise<Response.SuccessableResponse> {
+		const path = `/user/validate`;
+		return this._requester.post(path, { token });
+	}
+}
+
+export interface SiteSettingsOptions {
+	likesArePublic: boolean;
+	showAds: boolean;
+	userStatus: Types.UserMark;
 }
 
 
