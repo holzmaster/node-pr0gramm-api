@@ -1,7 +1,7 @@
 export type ItemID = number;
 export type UserID = number;
-export type PromotedID = number;
 export type CommentID = number;
+export type PromotedID = number;
 
 export type Score = number;
 

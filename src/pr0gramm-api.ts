@@ -210,6 +210,40 @@ export class Pr0grammProfileService {
 	}
 }
 
+export class Pr0grammCommentsService {
+	constructor(private readonly _requester: APIRequester) {
+	}
+
+	public delete(id: Types.CommentID, reason: string): Promise<Response.Pr0grammResponse> {
+		const path = `/comments/delete`;
+		return this._requester.post(path, { id, reason });
+	}
+	public softDelete(id: Types.CommentID, reason: string): Promise<Response.Pr0grammResponse> {
+		const path = `/comments/softDelete`;
+		return this._requester.post(path, { id, reason });
+	}
+	public edit(id: Types.CommentID, newContent: string): Promise<Response.Pr0grammResponse> {
+		const path = `/comments/edit`;
+		return this._requester.post(path, { commentId: id, comment: newContent });
+	}
+
+	public vote(id: Types.CommentID, absoluteVote: Types.Vote): Promise<Response.Pr0grammResponse> {
+		const path = `/comments/vote`;
+		return this._requester.post(path, { id, vote: absoluteVote, });
+	}
+
+	public post(itemId: Types.ItemID, content: string, replyTo: Types.CommentID = 0): Promise<Response.Pr0grammResponse> {
+		const path = `/comments/post`;
+		return this._requester.post(path, {
+			comment: content,
+			itemId,
+			parentId: replyTo,
+		});
+	}
+}
+
+
+
 function ensureUnixTimetamp(v: Types.Timestamp): Types.UnixTimestamp {
 	"use asm"; // Maximum micro optimization
 	if (typeof v === "number")
