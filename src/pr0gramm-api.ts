@@ -1,5 +1,5 @@
 import * as request from "request";
-import * as Reponse from "./responses";
+import * as Response from "./responses";
 import * as Types from "./common-types";
 // import * as qs from "querystring";
 
@@ -79,36 +79,36 @@ export class Pr0grammItemsService {
 	constructor(private readonly _requester: APIRequester) {
 	}
 
-	public delete(options: DeleteItemOptions): Promise<Reponse.Pr0grammResponse> {
+	public delete(options: DeleteItemOptions): Promise<Response.Pr0grammResponse> {
 		const path = `/items/delete`;
 		return this._requester.post(path, options);
 	}
 
-	public getInfo(itemId: Types.ItemID): Promise<Reponse.GetItemsInfoResponse> {
+	public getInfo(itemId: Types.ItemID): Promise<Response.GetItemsInfoResponse> {
 		const path = `/items/info`;
 		return this._requester.get(path, { itemId });
 	}
 
-	public getItems(options: GetItemsOptions): Promise<Reponse.GetItemsResponse> {
+	public getItems(options: GetItemsOptions): Promise<Response.GetItemsResponse> {
 		const path = `/items/get`;
 		const rawOptions = Pr0grammItemsService.parseRawGetItemsOptions(options);
-		return this._requester.get<Reponse.GetItemsResponse>(path, rawOptions);
+		return this._requester.get<Response.GetItemsResponse>(path, rawOptions);
 	}
-	public getItemsNewer(options: GetItemsNewerOptions): Promise<Reponse.GetItemsResponse> {
+	public getItemsNewer(options: GetItemsNewerOptions): Promise<Response.GetItemsResponse> {
 		const path = `/items/get`;
 		const rawOptions = Object.assign({
 			newer: options.newer,
 		}, Pr0grammItemsService.parseRawGetItemsOptions(options));
 		return this._requester.get(path, rawOptions);
 	}
-	public getItemsOlder(options: GetItemsOlderOptions): Promise<Reponse.GetItemsResponse> {
+	public getItemsOlder(options: GetItemsOlderOptions): Promise<Response.GetItemsResponse> {
 		const path = `/items/get`;
 		const rawOptions = Object.assign({
 			older: options.older,
 		}, Pr0grammItemsService.parseRawGetItemsOptions(options));
 		return this._requester.get(path, rawOptions);
 	}
-	public getItemsAround(options: GetItemsAroundOptions): Promise<Reponse.GetItemsResponse> {
+	public getItemsAround(options: GetItemsAroundOptions): Promise<Response.GetItemsResponse> {
 		const path = `/items/get`;
 		const rawOptions = Object.assign({
 			id: options.around,
@@ -128,7 +128,7 @@ export class Pr0grammItemsService {
 		};
 	}
 
-	public vote(id: Types.ItemID, absoluteVote: Types.Vote): Promise<Reponse.Pr0grammResponse> {
+	public vote(id: Types.ItemID, absoluteVote: Types.Vote): Promise<Response.Pr0grammResponse> {
 		const path = `/items/vote`;
 		const data = {
 			id,
@@ -136,7 +136,7 @@ export class Pr0grammItemsService {
 		};
 		return this._requester.post(path, data);
 	}
-	public reateLimited(): Promise<Reponse.Pr0grammResponse> {
+	public rateLimited(): Promise<Response.Pr0grammResponse> {
 		const path = `/items/ratelimited`;
 		return this._requester.post(path);
 	}
@@ -172,4 +172,47 @@ export interface GetItemsOlderOptions extends GetItemsOptions {
 }
 export interface GetItemsAroundOptions extends GetItemsOptions {
 	around: Types.ItemID;
+}
+
+export class Pr0grammProfileService {
+	constructor(private readonly _requester: APIRequester) {
+	}
+
+	public getCommentsBefore(name: Types.Username, flags: Types.ItemFlags, before: Types.Timestamp): Promise<Response.GetCommentsResponse> {
+		const path = `/profile/comments`;
+		return this._requester.get(path, {
+			name,
+			flags,
+			before: ensureUnixTimetamp(before),
+		});
+	}
+	public getCommentsAfter(name: Types.Username, flags: Types.ItemFlags, after: Types.Timestamp): Promise<Response.GetCommentsResponse> {
+		const path = `/profile/comments`;
+		return this._requester.get(path, {
+			name,
+			flags,
+			after: ensureUnixTimetamp(after),
+		});
+	}
+
+	public follow(name: Types.Username): Promise<Response.Pr0grammResponse> {
+		const path = `/profile/follow`;
+		return this._requester.post(path, { name });
+	}
+	public unfollow(name: Types.Username): Promise<Response.Pr0grammResponse> {
+		const path = `/profile/unfollow`;
+		return this._requester.post(path, { name });
+	}
+
+	public getInfo(name: Types.Username, flags: Types.ItemFlags): Promise<Response.GetProfileInfoResponse> {
+		const path = `/profile/info`;
+		return this._requester.get(path, { name, flags });
+	}
+}
+
+function ensureUnixTimetamp(v: Types.Timestamp): Types.UnixTimestamp {
+	"use asm"; // Maximum micro optimization
+	if (typeof v === "number")
+		return v | 0;
+	return (v.getTime() / 1000) | 0;
 }

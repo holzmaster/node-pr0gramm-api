@@ -1,13 +1,18 @@
 export type ItemID = number;
+export type UserID = number;
 export type PromotedID = number;
 export type CommentID = number;
+
+export type Score = number;
 
 export type Tag = string;
 export type TagList = string;
 
 export type Username = string;
+export type Email = string;
 export type Confidence = number;
-export type Timestamp = number | Date;
+export type UnixTimestamp = number;
+export type Timestamp = UnixTimestamp | Date;
 
 export type Likes = string; // TODO: What is this?
 export type Pr0grammError = Object;
@@ -19,6 +24,8 @@ export type Pr0grammURL = string;
 export type ThumbnailURL = Pr0grammURL;
 export type ImageURL = Pr0grammURL;
 export type FullSizeURL = Pr0grammURL;
+export type BadgeImageURL = Pr0grammURL;
+export type BadgeLinkURL = Pr0grammURL;
 
 export const enum UserMark {
 	Schwuchtel = 0,
@@ -73,6 +80,52 @@ export interface ProfileComment extends Comment {
 	thumb: ThumbnailURL;
 }
 
+export interface CommentUser {
+	id: UserID;
+	name: Username;
+	mark: UserMark;
+}
+
+export interface User extends CommentUser {
+	registered: Timestamp;
+	score: Score;
+	admin: boolean;
+	banned: boolean;
+	bannedUntil: Timestamp;
+}
+
+export interface FollowedUser {
+	itemId: ItemID;
+	thumb: ThumbnailURL;
+	name: Username;
+	mark: UserMark;
+	lastPost: Timestamp;
+	followCreated: Timestamp;
+}
+
+export interface InvitingUser {
+	name: Username;
+	mark: UserMark;
+	email: Email;
+}
+
+export interface ProfileUpload {
+	id: ItemID;
+	thumb: ThumbnailURL;
+}
+
+export interface ProfileBadge {
+	image: BadgeImageURL;
+	description: string;
+	link: BadgeLinkURL;
+	created: Timestamp;
+}
+
+export interface DynamicProfileBadge extends ProfileBadge {
+	name: string; // ??
+	extra: string;
+}
+
 export interface Item {
 	id: ItemID;
 	promotedId: PromotedID;
@@ -86,6 +139,11 @@ export interface Item {
 	flags: ItemFlags;
 	user: Username;
 	mark: UserMark;
+}
+
+export interface LikedItem {
+	id: ItemID;
+	thumb: ThumbnailURL;
 }
 
 export type DeleteItemReason = "Regel #1 - Bild unzureichend getagged (nsfw/nsfl)"
