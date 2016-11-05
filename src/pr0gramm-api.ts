@@ -50,8 +50,8 @@ export class APIRequester {
 	private readonly _apiUrl: string;
 	private static readonly _headers = APIRequester.createDefaultHeaders();
 
-	constructor(public cookies: request.CookieJar, insecure: boolean) {
-		this._apiUrl = ClientConstants.getAPIBaseAddress(insecure);
+	constructor(public cookies: request.CookieJar, private readonly _insecure: boolean) {
+		this._apiUrl = ClientConstants.getAPIBaseAddress(_insecure);
 	}
 
 	public get<T>(path: string, data?: Types.KeyValue<any>): Promise<T> {
@@ -63,29 +63,52 @@ export class APIRequester {
 				jar: this.cookies,
 				json: true,
 			}, (err, response, body) => {
-				if (err)
-					return reject(err);
-				if (response.statusCode === 200)
-					return resolve(body);
+				if (err) return reject(err);
+				if (response.statusCode === 200) return resolve(body);
 			});
 		});
 	}
-	public post<T>(path: string, data?: Types.KeyValue<any>): Promise<T> {
+	public post<T>(path: string, data?: Types.KeyValue<any>, ignoreNonce: boolean = false): Promise<T> {
 		const url = this._apiUrl + path;
-		// TODO: _nonce and stuff
-		throw "Not implemented :(";
+		data = data || {};
+		if (!ignoreNonce) {
+			const meCookie = this.getMeCookie(this._insecure);
+			if (meCookie === null || !meCookie.id)
+				throw `Not logged in. The post request to ${path} requires authentication.`;
+			data["_nonce"] = meCookie.id.substr(0, 16);
+		}
+
+		return new Promise<T>((resolve, reject) => {
+			request.post(url, {
+				form: data,
+				headers: APIRequester._headers,
+				jar: this.cookies,
+				json: true,
+			}, (err, response, body) => {
+				if (err) return reject(err);
+				if (response.statusCode === 200) return resolve(body);
+			});
+		});
 	}
-	private getMeCookie(): Types.MeCookie {
-		const cs = this.cookies.getCookies(ClientConstants.HOST_NAME);
+	private getMeCookie(insecure: boolean): Types.MeCookie | null {
+		const addr = ClientConstants.getBaseAddress(insecure);
+		const cs = this.cookies.getCookies(addr);
 		for (const c of cs) {
 			if (!c) continue;
 			// TODO DANGEROUS
+			// But there are no good definitions for request's cookies :(
 			const ct = c as any as { key: string, value: string };
 			if (ct.key === "me") {
-				ct.value
+				const meCookeStr = decodeURIComponent(ct.value);
+				try {
+					return JSON.parse(meCookeStr);
+				}
+				catch (ex) {
+					return null;
+				}
 			}
 		}
-		throw "Not implemented :/";
+		return null;
 	}
 
 
@@ -365,7 +388,7 @@ export class Pr0grammUserService {
 
 	public login(name: Types.Username, password: Types.Password): Promise<Response.LogInResponse> {
 		const path = `/user/login`;
-		return this._requester.post(path, { name, password });
+		return this._requester.post(path, { name, password }, true);
 	}
 
 	public logout(id: Types.SessionID): Promise<Response.Pr0grammResponse> {
@@ -393,7 +416,7 @@ export class Pr0grammUserService {
 
 	public sendPasswordResetMail(email: Types.Email): Promise<Response.Pr0grammResponse> {
 		const path = `/user/sendpasswordresetmail`;
-		return this._requester.post(path, { email });
+		return this._requester.post(path, { email }, true);
 	}
 
 	public setSiteSettings(siteSettings: SiteSettingsOptions): Promise<Response.ChangeUserDataResponse> {

@@ -73,7 +73,12 @@ export interface TokenInfoResponse extends Pr0grammResponse {
 	token: Types.Token | null;
 }
 
-export interface LogInResponse extends Pr0grammResponse {
+export interface SuccessableResponse extends Pr0grammResponse {
+	success: boolean;
+	identifier: string | undefined;
+}
+
+export interface LogInResponse extends SuccessableResponse {
 	ban: Types.BanInfo | null;
 }
 
@@ -82,8 +87,4 @@ export interface SyncResponse extends Pr0grammResponse {
 	log: Types.LogItem[] | string; // TODO
 	logLength: number;
 	score: Types.Score;
-}
-
-export interface SuccessableResponse extends Pr0grammResponse {
-	success: boolean;
 }
