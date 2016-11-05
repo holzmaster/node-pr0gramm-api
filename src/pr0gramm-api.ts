@@ -6,7 +6,7 @@ class ClientConstants {
 	private static readonly VERSION = "1.1.0";
 	private static readonly PROTOCOL_PREFIX = "https://";
 	private static readonly PROTOCOL_PREFIX_INSECURE = "http://";
-	private static readonly HOST_NAME = "pr0gramm.com";
+	public static readonly HOST_NAME = "pr0gramm.com";
 
 	public static getBaseAddress(insecure?: boolean): string {
 		return (insecure ? ClientConstants.PROTOCOL_PREFIX_INSECURE : ClientConstants.PROTOCOL_PREFIX) + ClientConstants.HOST_NAME;
@@ -75,6 +75,20 @@ export class APIRequester {
 		// TODO: _nonce and stuff
 		throw "Not implemented :(";
 	}
+	private getMeCookie(): Types.MeCookie {
+		const cs = this.cookies.getCookies(ClientConstants.HOST_NAME);
+		for (const c of cs) {
+			if (!c) continue;
+			// TODO DANGEROUS
+			const ct = c as any as { key: string, value: string };
+			if (ct.key === "me") {
+				ct.value
+			}
+		}
+		throw "Not implemented :/";
+	}
+
+
 	public static createTagList(tags: Types.Tag[]): Types.TagList {
 		return tags.join(",");
 	}
