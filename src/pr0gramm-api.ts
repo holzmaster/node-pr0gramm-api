@@ -20,6 +20,9 @@ class ClientConstants {
 	}
 }
 
+/**
+ * A set of APIs to interact with pr0gramm. Its design is based on the API the site uses.
+ */
 export class Pr0grammAPI {
 
 	public readonly items: Pr0grammItemsService;
@@ -34,6 +37,10 @@ export class Pr0grammAPI {
 	public get cookies(): CookieJar | false { return this._requester.cookies; }
 	public set cookies(v: CookieJar | false) { this._requester.cookies = v; }
 
+	/**
+	 * @param cookies Pass false to ignore cookies. Pass a CookieJar to use cookies. If a falsy value (except false, of course) is passed, a new CookieJar will be created internally.
+	 * @param _insecure Use the insecure (non-https) protocol.
+	 */
 	constructor(cookies?: CookieJar | false, insecure?: boolean) {
 		const cs = cookies === false ? false : (cookies ? cookies : createCookieJar());
 		const req = new APIRequester(cs as CookieJar | false, !!insecure);
@@ -47,10 +54,17 @@ export class Pr0grammAPI {
 	}
 }
 
+/**
+ * Class used to fire HTTP(S) requests.
+ */
 export class APIRequester {
 	private readonly _apiUrl: string;
 	private static readonly _headers = APIRequester.createDefaultHeaders();
 
+	/**
+	 * @param cookies Pass false to ignore cookies. Pass a CookieJar to use cookies.
+	 * @param _insecure Use the insecure (non-https) protocol.
+	 */
 	constructor(public cookies: CookieJar | false, private readonly _insecure: boolean) {
 		this._apiUrl = ClientConstants.getAPIBaseAddress(_insecure);
 	}
