@@ -11,11 +11,21 @@ import { Pr0grammAPI, ItemFlags } from "pr0gramm-api";
 const api = new Pr0grammAPI();
 
 async function main() {
-    const response = await api.items.getItems({
+    let mainItems = await api.items.getItems({
         promoted: true,
         flags: ItemFlags.All
     });
-    console.dir(response.items);
+    console.dir(mainItems.items);
+
+    let loginResponse = await api.user.login("cha0s", "stahl0fen80");
+    if(!loginResponse.success) {
+        console.log("Could not log in :(");
+        if(loginResponse.ban !== null) {
+            console.log("You are banned. Reason:");
+            console.log(loginResponse.ban.reason);
+            return;
+        }
+    }
 }
 main();
 ```
