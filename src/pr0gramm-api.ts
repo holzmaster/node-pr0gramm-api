@@ -3,7 +3,7 @@ import * as Response from "./responses";
 import * as Types from "./common-types";
 
 class ClientConstants {
-	private static readonly VERSION = "1.0.0";
+	private static readonly VERSION = "1.1.0";
 	private static readonly PROTOCOL_PREFIX = "https://";
 	private static readonly PROTOCOL_PREFIX_INSECURE = "http://";
 	private static readonly HOST_NAME = "pr0gramm.com";
