@@ -18,7 +18,7 @@ export type BanDuration = number; // In days
 export type Likes = string; // TODO: What is this?
 export type Pr0grammError = Object;
 
-export type Cache = Object;
+export type Cache = string;
 export type Roundtrip = number;
 
 export type Pr0grammURL = string;
@@ -110,7 +110,7 @@ export interface User extends CommentUser {
 	score: Score;
 	admin: boolean;
 	banned: boolean;
-	bannedUntil: Timestamp;
+	bannedUntil: Timestamp | null;
 }
 
 export interface FollowedUser {
