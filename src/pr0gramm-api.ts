@@ -1,4 +1,4 @@
-import * as request from "request";
+import { CookieJar, jar as createCookieJar, get as getRequest, post as postRequest } from "request";
 import * as Response from "./responses";
 import * as Types from "./common-types";
 
@@ -31,11 +31,12 @@ export class Pr0grammAPI {
 
 	private readonly _requester: APIRequester;
 
-	public get cookies(): request.CookieJar { return this._requester.cookies; }
-	public set cookies(v: request.CookieJar) { this._requester.cookies = v; }
+	public get cookies(): CookieJar | false { return this._requester.cookies; }
+	public set cookies(v: CookieJar | false) { this._requester.cookies = v; }
 
-	constructor(cookies?: request.CookieJar, insecure?: boolean) {
-		const req = new APIRequester(cookies ? cookies : request.jar(), !!insecure);
+	constructor(cookies?: CookieJar | false, insecure?: boolean) {
+		const cs = cookies === false ? false : (cookies ? cookies : createCookieJar());
+		const req = new APIRequester(cs as CookieJar | false, !!insecure);
 		this._requester = req;
 		this.items = new Pr0grammItemsService(req);
 		this.tags = new Pr0grammTagsService(req);
@@ -50,14 +51,14 @@ export class APIRequester {
 	private readonly _apiUrl: string;
 	private static readonly _headers = APIRequester.createDefaultHeaders();
 
-	constructor(public cookies: request.CookieJar, private readonly _insecure: boolean) {
+	constructor(public cookies: CookieJar | false, private readonly _insecure: boolean) {
 		this._apiUrl = ClientConstants.getAPIBaseAddress(_insecure);
 	}
 
 	public get<T>(path: string, data?: Types.KeyValue<any>): Promise<T> {
 		const url = this._apiUrl + path;
 		return new Promise<T>((resolve, reject) => {
-			request.get(url, {
+			getRequest(url, {
 				qs: data || {},
 				headers: APIRequester._headers,
 				jar: this.cookies,
@@ -79,7 +80,7 @@ export class APIRequester {
 		}
 
 		return new Promise<T>((resolve, reject) => {
-			request.post(url, {
+			postRequest(url, {
 				form: data,
 				headers: APIRequester._headers,
 				jar: this.cookies,
@@ -92,7 +93,10 @@ export class APIRequester {
 	}
 	private getMeCookie(insecure: boolean): Types.MeCookie | null {
 		const addr = ClientConstants.getBaseAddress(insecure);
-		const cs = this.cookies.getCookies(addr);
+		const thisCookies = this.cookies;
+		if (thisCookies === false)
+			return null;
+		const cs = thisCookies.getCookies(addr);
 		for (const c of cs) {
 			if (!c) continue;
 			// TODO DANGEROUS
