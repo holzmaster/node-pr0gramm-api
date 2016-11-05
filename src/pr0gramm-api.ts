@@ -24,6 +24,10 @@ class ClientConstants {
 export class Pr0grammAPI {
 
 	public readonly items: Pr0grammItemsService;
+	public readonly tags: Pr0grammTagsService;
+	public readonly comments: Pr0grammCommentsService;
+	public readonly profile: Pr0grammProfileService;
+
 	private readonly _requester: APIRequester;
 
 	public get cookies(): request.CookieJar { return this._requester.cookies; }
@@ -33,6 +37,9 @@ export class Pr0grammAPI {
 		const req = new APIRequester(cookies ? cookies : request.jar(), !!insecure);
 		this._requester = req;
 		this.items = new Pr0grammItemsService(req);
+		this.tags = new Pr0grammTagsService(req);
+		this.comments = new Pr0grammCommentsService(req);
+		this.profile = new Pr0grammProfileService(req);
 	}
 }
 
