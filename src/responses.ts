@@ -40,3 +40,7 @@ export interface GetProfileInfoResponse extends Pr0grammResponse {
 	followcount: number;
 	following: boolean;
 }
+
+export interface GetDetailsResponse extends Pr0grammResponse {
+	tags: Types.ItemTagDetails[];
+}

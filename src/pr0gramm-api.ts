@@ -242,6 +242,34 @@ export class Pr0grammCommentsService {
 	}
 }
 
+export class Pr0grammTagsService {
+	constructor(private readonly _requester: APIRequester) {
+	}
+
+	public add(itemId: Types.ItemID, tags: Types.Tag[]): Promise<Response.Pr0grammResponse> {
+		const path = `/tags/add`;
+		return this._requester.post(path, {
+			itemId,
+			tags: APIRequester.createTagList(tags),
+			submit: "Tags speichern",
+		});
+	}
+
+	public delete(itemId: Types.ItemID, banUsers: boolean, days: Types.BanDuration, tags: Types.Tag[]): Promise<Response.Pr0grammResponse> {
+		const path = `/tags/delete`;
+		return this._requester.post(path, { itemId, tags, banUsers, days });
+	}
+
+	public getDetails(itemId: Types.ItemID): Promise<Response.GetDetailsResponse> {
+		const path = `/tags/details`;
+		return this._requester.get(path, { itemId });
+	}
+
+	public vote(id: Types.TagID, absoluteVote: Types.Vote): Promise<Response.Pr0grammResponse> {
+		const path = `/tags/vote`;
+		return this._requester.post(path, { id, vote: absoluteVote });
+	}
+}
 
 
 function ensureUnixTimetamp(v: Types.Timestamp): Types.UnixTimestamp {

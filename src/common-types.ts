@@ -1,11 +1,11 @@
 export type ItemID = number;
 export type UserID = number;
 export type CommentID = number;
+export type TagID = number;
 export type PromotedID = number;
 
 export type Score = number;
 
-export type Tag = string;
 export type TagList = string;
 
 export type Username = string;
@@ -13,6 +13,7 @@ export type Email = string;
 export type Confidence = number;
 export type UnixTimestamp = number;
 export type Timestamp = UnixTimestamp | Date;
+export type BanDuration = number; // In days
 
 export type Likes = string; // TODO: What is this?
 export type Pr0grammError = Object;
@@ -68,11 +69,29 @@ export interface Comment {
 	content: string;
 }
 
+export interface Tag {
+	id: TagID;
+	tag: string;
+	confidence: Confidence;
+}
+
 export interface ItemComment extends Comment {
 	parent: CommentID | null;
 	confidence: Confidence;
 	name: Username;
 	mark: UserMark;
+}
+
+export interface ItemTagDetails {
+	user: Username;
+	up: number;
+	down: number;
+	votes: ItemTagVote[];
+}
+
+export interface ItemTagVote {
+	user: Username;
+	vote: Vote;
 }
 
 export interface ProfileComment extends Comment {
