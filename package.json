@@ -5,7 +5,8 @@
   "main": "build/lib.js",
   "typings": "build/lib.d.ts",
   "scripts": {
-    "test": "tsc"
+    "test": "tsc",
+    "prepublish": "tsc"
   },
   "keywords": [
     "pr0gramm"
