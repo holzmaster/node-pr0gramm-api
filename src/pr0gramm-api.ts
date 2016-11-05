@@ -1,7 +1,6 @@
 import * as request from "request";
 import * as Response from "./responses";
 import * as Types from "./common-types";
-// import * as qs from "querystring";
 
 class ClientConstants {
 	private static readonly VERSION = "1.0.0";
