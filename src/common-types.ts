@@ -155,14 +155,14 @@ export interface DynamicProfileBadge extends ProfileBadge {
 
 export interface Item {
 	id: ItemID;
-	promotedId: PromotedID;
+	promoted: PromotedID;
 	up: number;
 	down: number;
 	created: Timestamp;
 	image: ImageURL;
 	thumb: ThumbnailURL;
 	fullsize: FullSizeURL;
-	source: string;
+	source: string | null;
 	flags: ItemFlags;
 	user: Username;
 	mark: UserMark;
