@@ -59,7 +59,8 @@ export enum ItemFlags {
 	SFW = 1,
 	NSFW = 2,
 	NSFL = 4,
-	All = SFW | NSFW | NSFL,
+	NSFP = 8,
+	All = SFW | NSFW | NSFL | NSFP,
 }
 
 /*
