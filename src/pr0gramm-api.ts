@@ -1,6 +1,7 @@
 import { CookieJar, jar as createCookieJar, get as getRequest, post as postRequest } from "request";
 import * as Response from "./responses";
 import * as Types from "./common-types";
+import { Agent } from "http";
 
 class ClientConstants {
 	private static readonly VERSION = "1.3.0";
@@ -60,19 +61,22 @@ export class Pr0grammAPI {
 export class APIRequester {
 	private readonly _apiUrl: string;
 	private static readonly _headers = APIRequester.createDefaultHeaders();
+	private readonly _pool: undefined | Agent;
 
 	/**
 	 * @param cookies Pass false to ignore cookies. Pass a CookieJar to use cookies.
 	 * @param _insecure Use the insecure (non-https) protocol.
 	 */
-	constructor(public cookies: CookieJar | false, private readonly _insecure: boolean) {
+	constructor(public cookies: CookieJar | false, private readonly _insecure: boolean, pool?: Agent) {
 		this._apiUrl = ClientConstants.getAPIBaseAddress(_insecure);
+		this._pool = pool;
 	}
 
 	public get<T>(path: string, data?: Types.KeyValue<any>): Promise<T> {
 		const url = this._apiUrl + path;
 		return new Promise<T>((resolve, reject) => {
 			getRequest(url, {
+				pool: this._pool,
 				qs: data || {},
 				headers: APIRequester._headers,
 				jar: this.cookies,
@@ -95,6 +99,7 @@ export class APIRequester {
 
 		return new Promise<T>((resolve, reject) => {
 			postRequest(url, {
+				pool: this._pool,
 				form: data,
 				headers: APIRequester._headers,
 				jar: this.cookies,
