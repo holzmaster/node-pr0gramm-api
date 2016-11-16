@@ -42,16 +42,25 @@ export class Pr0grammAPI {
 	 * @param cookies Pass false to ignore cookies. Pass a CookieJar to use cookies. If a falsy value (except false, of course) is passed, a new CookieJar will be created internally.
 	 * @param _insecure Use the insecure (non-https) protocol.
 	 */
-	constructor(cookies?: CookieJar | false, insecure?: boolean) {
+	private constructor(requester: APIRequester) {
+		this._requester = requester;
+		this.items = new Pr0grammItemsService(requester);
+		this.tags = new Pr0grammTagsService(requester);
+		this.comments = new Pr0grammCommentsService(requester);
+		this.profile = new Pr0grammProfileService(requester);
+		this.contact = new Pr0grammContactService(requester);
+		this.user = new Pr0grammUserService(requester);
+	}
+
+	public static createWithRequester(requester: APIRequester): Pr0grammAPI {
+		const res = new Pr0grammAPI(requester);
+		return res;
+	}
+	public static createWithCookies(cookies?: CookieJar | false, insecure?: boolean) {
 		const cs = cookies === false ? false : (cookies ? cookies : createCookieJar());
 		const req = new APIRequester(cs as CookieJar | false, !!insecure);
-		this._requester = req;
-		this.items = new Pr0grammItemsService(req);
-		this.tags = new Pr0grammTagsService(req);
-		this.comments = new Pr0grammCommentsService(req);
-		this.profile = new Pr0grammProfileService(req);
-		this.contact = new Pr0grammContactService(req);
-		this.user = new Pr0grammUserService(req);
+		const res = new Pr0grammAPI(req);
+		return res;
 	}
 }
 
