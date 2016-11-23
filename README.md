@@ -8,7 +8,7 @@ npm install -S pr0gramm-api
 ```TypeScript
 import { Pr0grammAPI, ItemFlags } from "pr0gramm-api";
 
-const api = new Pr0grammAPI();
+const api = Pr0grammAPI.createWithCookies();
 
 async function main() {
     let mainItems = await api.items.getItems({
