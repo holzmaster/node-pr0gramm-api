@@ -7,10 +7,11 @@
 		"sourceMap": false,
 		"newLine": "LF",
 		"removeComments": true,
-		"noImplicitAny": true,
-		"noImplicitThis": true,
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
 		"noImplicitReturns": true,
-		"strictNullChecks": true
+		"noFallthroughCasesInSwitch": true
 	},
 	"exclude": [
 		"build"
