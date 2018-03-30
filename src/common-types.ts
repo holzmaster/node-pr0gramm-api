@@ -6,7 +6,7 @@ export type SyncID = number;
 export type PromotedID = number;
 
 export type Score = number;
-export type LogItem = Object; // TODO
+export type LogItem = object; // TODO
 
 export type TagList = string;
 export type SessionID = string;
@@ -24,7 +24,7 @@ export type Timestamp = UnixTimestamp | Date;
 export type BanDuration = number; // In days
 
 export type Likes = string; // TODO: What is this?
-export type Pr0grammError = Object;
+export type Pr0grammError = object;
 
 export type Cache = string | null;
 export type Roundtrip = number;
