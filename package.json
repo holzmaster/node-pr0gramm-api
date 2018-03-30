@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "test": "tsc",
-    "prepublish": "tsc"
+    "prepare": "tsc"
   },
   "keywords": [
     "pr0gramm"
@@ -16,9 +16,12 @@
   "author": "holzmaster",
   "license": "GPL-3.0",
   "dependencies": {
-    "@types/node": "^6.0.46",
-    "@types/request": "0.0.32",
-    "request": "^2.78.0"
+    "@types/node": "^8.10.0",
+    "@types/request": "^2.47.0",
+    "request": "^2.85.0"
+  },
+  "engines": {
+    "node": ">=8.11.1"
   },
   "devDependencies": {
     "typescript": "^2.8.1"
