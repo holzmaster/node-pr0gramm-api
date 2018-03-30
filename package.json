@@ -5,6 +5,7 @@
   "main": "build/lib.js",
   "typings": "build/lib.d.ts",
   "scripts": {
+    "build": "tsc",
     "test": "tsc",
     "prepublish": "tsc"
   },
@@ -18,5 +19,8 @@
     "@types/node": "^6.0.46",
     "@types/request": "0.0.32",
     "request": "^2.78.0"
+  },
+  "devDependencies": {
+    "typescript": "^2.8.1"
   }
 }
