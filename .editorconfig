@@ -7,8 +7,13 @@ charset = utf-8
 
 [*.{js,ts,json}]
 indent_style = tab
-tab_size = 4
+tab_width = 4
+indent_size = 4
 
-[{package.json,.travis.yml}]
-indent_size = 2
+[{package,tsconfig}.json]
 indent_style = space
+indent_size = 2
+
+[.travis.yml]
+indent_style = space
+indent_size = 2
