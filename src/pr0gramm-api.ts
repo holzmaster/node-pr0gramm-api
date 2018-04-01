@@ -182,6 +182,52 @@ export class Pr0grammItemsService {
 		return this._requester.get(path, rawOptions);
 	}
 
+	public walkStreamNewer(options: GetItemsNewerOptions): AsyncIterableIterator<Types.Item> {
+		return this.walkStream(
+			options.newer,
+			options, {
+				getNextId: res => res.items[res.items.length - 1].id,
+				shouldContinue: res => !res.atStart,
+				getItems: (opts, currentId) => this.getItemsNewer({ ...opts, newer: currentId }),
+			}
+		);
+	}
+	public walkStreamOlder(options: GetItemsOlderOptions): AsyncIterableIterator<Types.Item> {
+		return this.walkStream(
+			options.older,
+			options, {
+				getNextId: res => res.items[res.items.length - 1].id,
+				shouldContinue: res => !res.atEnd,
+				getItems: (opts, currentId) => this.getItemsOlder({ ...opts, older: currentId }),
+			}
+		);
+	}
+
+	public async *walkStream(start: Types.ItemID, options: GetItemsOptions, functions: WalkStreamFunctions): AsyncIterableIterator<Types.Item> {
+		const fns = { ...functions }; // defensive copy
+
+		let currentId = start;
+		let lastCurrentId: Types.ItemID;
+
+		let response: Response.GetItemsResponse | null = null;
+		do {
+			response = await fns.getItems(options, currentId);
+
+			const items = response.items;
+			if (!items || items.length <= 0)
+				break;
+
+			yield* items;
+
+			lastCurrentId = currentId;
+			currentId = fns.getNextId(response);
+
+			if (lastCurrentId === currentId)
+				break;
+
+		} while (fns.shouldContinue(response));
+	}
+
 	private static parseRawGetItemsOptions(options: GetItemsOptions) {
 		return {
 			flags: options.flags,
@@ -225,6 +271,7 @@ export interface GetItemsOptions {
 	flags: Types.ItemFlags;
 	promoted: boolean;
 
+	// TODO: Split this into different types
 	self?: boolean;
 	tags?: Types.Tag[];
 	user?: Types.Username;
@@ -238,6 +285,14 @@ export interface GetItemsOlderOptions extends GetItemsOptions {
 }
 export interface GetItemsAroundOptions extends GetItemsOptions {
 	around: Types.ItemID;
+}
+export interface WalkStreamNewerOptions extends GetItemsNewerOptions {
+	end?: Types.ItemID;
+}
+export interface WalkStreamFunctions {
+	getNextId(response: Response.GetItemsResponse): Types.ItemID;
+	shouldContinue(response: Response.GetItemsResponse): boolean;
+	getItems(options: GetItemsOptions, currentId: Types.ItemID): Promise<Response.GetItemsResponse>;
 }
 
 export class Pr0grammProfileService {
