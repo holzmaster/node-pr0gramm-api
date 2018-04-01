@@ -75,12 +75,22 @@ export interface TokenInfoResponse extends Pr0grammResponse {
 
 export interface SuccessableResponse extends Pr0grammResponse {
 	success: boolean;
-	identifier: string | undefined;
+	identifier?: string;
 }
 
-export interface LogInResponse extends SuccessableResponse {
-	ban: Types.BanInfo | null;
+export interface WrongCredentialsLogInResponse extends SuccessableResponse {
+	success: false;
+	ban: null;
 }
+export interface BannedLogInResponse extends SuccessableResponse {
+	success: false;
+	ban: Types.BanInfo;
+}
+export interface SuccessfulLogInResponse extends SuccessableResponse {
+	success: true;
+	ban: null;
+}
+export type LogInResponse = SuccessfulLogInResponse | WrongCredentialsLogInResponse | BannedLogInResponse;
 
 export interface SyncResponse extends Pr0grammResponse {
 	inboxCount: number;
