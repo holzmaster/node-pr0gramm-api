@@ -29,3 +29,29 @@ async function main() {
 }
 main();
 ```
+
+### Stream Walker
+The item stream requires you to call the next page of elements. Because it is a common operation to just walk over all items in the stream, there is a stream walker api for convenience:
+```TypeScript
+import { Pr0grammAPI, ItemFlags } from "pr0gramm-api";
+
+const api = Pr0grammAPI.createWithCookies();
+
+async function main() {
+    // Create a walker that iterates throu the entire stream of elements
+    // starting at item 0, going upwards
+    const itemStream = api.items.walkStreamNewer({
+        newer: 0,
+        flags: ItemFlags.All,
+        promoted: false,
+    });
+
+    // Asynchronous iteration over all items on pr0gramm
+    // automatically requests next items
+    for await (const item of itemStream) {
+        console.log(item.id + ": " + item.user);
+    }
+}
+main();
+```
+*Important*: This approach uses async generators, which are currently hidden behind node's `--harmony` flag. To use this API, you need to start node with `--harmony`.
