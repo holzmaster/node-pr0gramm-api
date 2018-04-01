@@ -159,23 +159,26 @@ export class Pr0grammItemsService {
 	}
 	public getItemsNewer(options: GetItemsNewerOptions): Promise<Response.GetItemsResponse> {
 		const path = `/items/get`;
-		const rawOptions = Object.assign({
+		const rawOptions = {
 			newer: options.newer,
-		}, Pr0grammItemsService.parseRawGetItemsOptions(options));
+			...Pr0grammItemsService.parseRawGetItemsOptions(options)
+		};
 		return this._requester.get(path, rawOptions);
 	}
 	public getItemsOlder(options: GetItemsOlderOptions): Promise<Response.GetItemsResponse> {
 		const path = `/items/get`;
-		const rawOptions = Object.assign({
+		const rawOptions = {
 			older: options.older,
-		}, Pr0grammItemsService.parseRawGetItemsOptions(options));
+			...Pr0grammItemsService.parseRawGetItemsOptions(options)
+		};
 		return this._requester.get(path, rawOptions);
 	}
 	public getItemsAround(options: GetItemsAroundOptions): Promise<Response.GetItemsResponse> {
 		const path = `/items/get`;
-		const rawOptions = Object.assign({
+		const rawOptions = {
 			id: options.around,
-		}, Pr0grammItemsService.parseRawGetItemsOptions(options));
+			...Pr0grammItemsService.parseRawGetItemsOptions(options)
+		};
 		return this._requester.get(path, rawOptions);
 	}
 
