@@ -2,24 +2,7 @@ import { CookieJar, jar as createCookieJar, get as getRequest, post as postReque
 import * as Response from "./responses";
 import * as Types from "./common-types";
 import { Agent } from "http";
-
-class ClientConstants {
-	private static readonly VERSION = "1.3.0";
-	private static readonly PROTOCOL_PREFIX = "https://";
-	private static readonly PROTOCOL_PREFIX_INSECURE = "http://";
-	public static readonly HOST_NAME = "pr0gramm.com";
-
-	public static getBaseAddress(insecure?: boolean): string {
-		return (insecure ? ClientConstants.PROTOCOL_PREFIX_INSECURE : ClientConstants.PROTOCOL_PREFIX) + ClientConstants.HOST_NAME;
-	}
-	public static getAPIBaseAddress(insecure: boolean): string {
-		return ClientConstants.getBaseAddress(insecure) + "/api";
-	}
-
-	public static getUserAgent() {
-		return `pr0gramm-api/${ClientConstants.VERSION} (Node.js)`;
-	}
-}
+import * as constants from "./client-constants";
 
 /**
  * A set of APIs to interact with pr0gramm. Its design is based on the API the site uses.
@@ -77,7 +60,7 @@ export class APIRequester {
 	 * @param _insecure Use the insecure (non-https) protocol.
 	 */
 	constructor(public cookies: CookieJar | false, private readonly _insecure: boolean, pool?: Agent) {
-		this._apiUrl = ClientConstants.getAPIBaseAddress(_insecure);
+		this._apiUrl = constants.getAPIBaseAddress(_insecure);
 		this._pool = pool;
 	}
 
@@ -120,7 +103,7 @@ export class APIRequester {
 		});
 	}
 	private getMeCookie(insecure: boolean): Types.MeCookie | null {
-		const addr = ClientConstants.getBaseAddress(insecure);
+		const addr = constants.getBaseAddress(insecure);
 		const thisCookies = this.cookies;
 		if (thisCookies === false)
 			return null;
@@ -150,7 +133,7 @@ export class APIRequester {
 
 	private static createDefaultHeaders() {
 		return {
-			"User-Agent": ClientConstants.getUserAgent()
+			"User-Agent": constants.getUserAgent()
 		};
 	}
 }
