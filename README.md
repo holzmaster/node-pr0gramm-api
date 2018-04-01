@@ -38,7 +38,7 @@ import { Pr0grammAPI, ItemFlags } from "pr0gramm-api";
 const api = Pr0grammAPI.createWithCookies();
 
 async function main() {
-    // Create a walker that iterates throu the entire stream of elements
+    // Create a walker that iterates through the entire stream of elements
     // starting at item 0, going upwards
     const itemStream = api.items.walkStreamNewer({
         newer: 0,
@@ -54,4 +54,6 @@ async function main() {
 }
 main();
 ```
-*Important*: This approach uses async generators, which are currently hidden behind node's `--harmony` flag. To use this API, you need to start node with `--harmony`.
+*Important*:
+- This approach uses async generators, which are currently hidden behind node's `--harmony` flag. To use this API, you need to start node with `--harmony`.
+- If you are using TypeScript, you need to have `"esnext.asynciterable"` and `"es6"` in your `lib` entry in `tsconfig.json`.
