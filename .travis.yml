@@ -6,10 +6,11 @@ node_js:
   - 10
   - node
 
-script:
-  - npm run compile
-
 cache: npm
+
+before_script: npm i -g npm@latest
+install: npm ci
+script: npm run compile
 
 deploy:
   provider: npm

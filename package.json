@@ -17,7 +17,7 @@
   "author": "holzmaster",
   "license": "GPL-3.0",
   "dependencies": {
-    "@types/node": "^8.10.0",
+    "@types/node": "^8.10.18",
     "@types/request": "^2.47.0",
     "request": "^2.87.0"
   },
