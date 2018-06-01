@@ -1,6 +1,6 @@
 {
   "name": "pr0gramm-api",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Node.js pr0gramm API",
   "main": "lib/lib.js",
   "typings": "lib/lib.d.ts",
