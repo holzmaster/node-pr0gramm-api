@@ -6,4 +6,4 @@ bin/
 .ntvs*
 *.log
 node_modules/
-build/
+lib/

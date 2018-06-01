@@ -1,2 +1,12 @@
 *.ts
 !*.d.ts
+.editorconfig
+.gitignore
+.travis.yml
+obj/
+bin/
+*.suo
+*.js.map
+.ntvs*
+*.log
+*.json
