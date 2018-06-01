@@ -1,6 +1,6 @@
 {
   "name": "pr0gramm-api",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Node.js pr0gramm API",
   "main": "lib/lib.js",
   "typings": "lib/lib.d.ts",
@@ -9,7 +9,10 @@
     "test": "tsc --noEmit",
     "prepare": "npm run compile"
   },
-  "keywords": ["pr0gramm", "api"],
+  "keywords": [
+    "pr0gramm",
+    "api"
+  ],
   "repository": "https://github.com/holzmaster/node-pr0gramm-api.git",
   "author": "holzmaster",
   "license": "GPL-3.0",
