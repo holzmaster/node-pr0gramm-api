@@ -5,6 +5,7 @@ npm install -S pr0gramm-api
 ```
 
 ## Usage
+TypeScript:
 ```TypeScript
 import { Pr0grammAPI, ItemFlags } from "pr0gramm-api";
 
@@ -57,3 +58,4 @@ main();
 *Important*:
 - This approach uses async generators, which are currently hidden behind node's `--harmony` flag. To use this API, you need to start node with `--harmony`.
 - If you are using TypeScript, you need to have `"esnext.asynciterable"` and `"es6"` in your `lib` entry in `tsconfig.json`.
+- The module is exposed as CommonJS, not (yet) ES modules. If you use plain JavaScript, keep in mind using CommonJS imports instead of ES imports: `const { Pr0grammAPI, ItemFlags } = require("pr0gramm-api");`
