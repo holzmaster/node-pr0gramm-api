@@ -119,7 +119,9 @@ export interface User extends CommentUser {
 	score: Score;
 	admin: boolean;
 	banned: boolean;
-	bannedUntil: Timestamp | null;
+	bannedUntil?: Timestamp;
+	itemDelete: number;
+	commentDelete: number;
 }
 
 export interface FollowedUser {
