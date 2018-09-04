@@ -30,6 +30,7 @@ export interface GetProfileInfoResponse extends Pr0grammResponse {
 	user: Types.User;
 	comments: Types.ProfileComment[];
 	commentCount: number;
+	// TODO: comments_likes
 	uploads: Types.ProfileUpload[];
 	uploadCount: number;
 	likesArePublic: boolean;
