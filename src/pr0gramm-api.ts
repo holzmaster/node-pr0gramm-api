@@ -402,6 +402,31 @@ export class Pr0grammContactService {
 	}
 }
 
+export class Pr0grammMessageService {
+	constructor(private readonly _requester: APIRequester) {
+	}
+
+	public getConversations(): Promise<Response.ConversationResponse> {
+		const path = `/inbox/conversations`;
+		return this._requester.get(path);
+	}
+
+	public getConversationsOlder(older: Types.ConversationID): Promise<Response.ConversationResponse> {
+		const path = `/inbox/conversations`;
+		return this._requester.get(path, { older });
+	}
+
+	public getMessages(user: Types.Username): Promise<Response.MessagesResponse> {
+		const path = `/inbox/messages`;
+		return this._requester.get(path, { with: user });
+	}
+
+	public sendMessage(recipientName: Types.Username, comment: Types.MessageComment): Promise<Response.MessagesResponse> {
+		const path = `/inbox/post`;
+		return this._requester.post(path, { recipientName, comment });
+	}
+}
+
 export class Pr0grammUserService {
 	constructor(private readonly _requester: APIRequester) {
 	}
