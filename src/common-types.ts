@@ -47,6 +47,12 @@ export enum UserMark {
 	LebendeLegende = 7,
 	Wichtel = 8,
 	EdlerSpender = 9,
+	Mittelaltschwuchtel = 10,
+	Altmoderator = 11,
+	Communityhelfer = 12,
+	Nutzerbot = 13,
+	Systembot = 14
+
 }
 
 export enum Vote {
