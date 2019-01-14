@@ -61,6 +61,7 @@ export enum Vote {
 	Down = -1,
 	None = 0,
 	Up = 1,
+	Favorisieren = 2,
 }
 
 export enum ItemFlags {
@@ -116,6 +117,15 @@ export interface ProfileComment extends Comment {
 	thumb: ThumbnailURL;
 }
 
+export interface LikedProfileComment extends Comment {
+	itemId: ItemID;
+	thumb: ThumbnailURL;
+	ccreated: Timestamp; // Timestamp wann der Kommentar als Favorit markiert wurde
+	mark: UserMark;
+	userId: UserID;
+	name: Username;
+}
+
 export interface CommentUser {
 	id: UserID;
 	name: Username;
@@ -130,6 +140,7 @@ export interface User extends CommentUser {
 	bannedUntil?: Timestamp;
 	itemDelete: number;
 	commentDelete: number;
+	inactive: boolean;
 }
 
 export interface FollowedUser {
