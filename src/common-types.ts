@@ -18,6 +18,8 @@ export type PaymentToken = string;
 export type Username = string;
 export type Password = string;
 export type Email = string;
+export type ConversationID = number;
+export type MessageComment = string;
 export type Confidence = number;
 export type UnixTimestamp = number;
 export type Timestamp = UnixTimestamp | Date;
@@ -47,6 +49,12 @@ export enum UserMark {
 	LebendeLegende = 7,
 	Wichtel = 8,
 	EdlerSpender = 9,
+	Mittelaltschwuchtel = 10,
+	Altmoderator = 11,
+	Communityhelfer = 12,
+	Nutzerbot = 13,
+	Systembot = 14
+
 }
 
 export enum Vote {
@@ -237,4 +245,21 @@ export interface BanInfo {
 	banned: boolean;
 	till: Timestamp | null;
 	reason: string | null;
+}
+
+export interface Conversation {
+	mark: number;
+	name: string;
+	lastMessage: number;
+	unreadCount: number;
+}
+
+export interface Message {
+	id: number;
+	sent: number;
+	read: number;
+	name: string;
+	mark: number;
+	created: number;
+	message: string;
 }

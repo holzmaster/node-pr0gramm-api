@@ -99,3 +99,13 @@ export interface SyncResponse extends Pr0grammResponse {
 	logLength: number;
 	score: Types.Score;
 }
+
+export interface ConversationResponse extends Pr0grammResponse {
+	conversations: Types.Conversation[];
+	atEnd: boolean;
+}
+
+export interface MessagesResponse extends Pr0grammResponse {
+	messages: Types.Message[];
+	atEnd: boolean;
+}
