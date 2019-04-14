@@ -19,9 +19,10 @@ async function main() {
 
     const mainItems = await api.items.getItems({
         promoted: true,
-        flags: ItemFlags.All
+        flags: ItemFlags.SFW
     });
-    console.dir(mainItems.items);
+
+    console.log(mainItems.items);
 
     const loginResponse = await api.user.login("cha0s", "stahl0fen80");
     if(!loginResponse.success) {
@@ -48,7 +49,7 @@ async function main() {
     // starting at item 0, going upwards
     const itemStream = api.items.walkStreamNewer({
         newer: 0,
-        flags: ItemFlags.All,
+        flags: ItemFlags.SFW,
         promoted: false,
     });
 
