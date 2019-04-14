@@ -13,3 +13,5 @@ export function createDefaultHeaders() {
 		"User-Agent": constants.getUserAgent()
 	};
 }
+
+export { NodeRequester } from "./node";
