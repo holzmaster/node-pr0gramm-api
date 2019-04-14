@@ -53,8 +53,7 @@ export enum UserMark {
 	Altmoderator = 11,
 	Communityhelfer = 12,
 	Nutzerbot = 13,
-	Systembot = 14
-
+	Systembot = 14,
 }
 
 export enum Vote {
