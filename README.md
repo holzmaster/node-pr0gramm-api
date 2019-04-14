@@ -15,7 +15,7 @@ async function main() {
     // When using this library in the browser, use this requester:
     // const requester = BrowserRequester.create();
 
-    const api = Pr0grammAPI.create(requeser);
+    const api = Pr0grammAPI.create(requester);
 
     const mainItems = await api.items.getItems({
         promoted: true,
