@@ -17,3 +17,11 @@ export function createDefaultHeaders() {
 		"User-Agent": getUserAgent()
 	};
 }
+
+export type QueryParams = Record<string, string>;
+
+export function addQueryParams(url: string, params: QueryParams | undefined) {
+	return params
+		? url + "?" + new URLSearchParams(params).toString()
+		: url;
+}
