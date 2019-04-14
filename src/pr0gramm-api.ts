@@ -54,7 +54,7 @@ export class Pr0grammItemsService {
 	public getItems(options: GetItemsOptions): Promise<Response.GetItemsResponse> {
 		const path = `/items/get`;
 		const rawOptions = Pr0grammItemsService.parseRawGetItemsOptions(options);
-		return this.requester.get<Response.GetItemsResponse>(path, rawOptions);
+		return this.requester.get(path, rawOptions);
 	}
 	public getItemsNewer(options: GetItemsNewerOptions): Promise<Response.GetItemsResponse> {
 		const path = `/items/get`;
