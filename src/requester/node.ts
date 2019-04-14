@@ -1,8 +1,9 @@
 import { Agent } from "http";
 import * as constants from "../client-constants";
-import { APIRequester, createDefaultHeaders } from "./index";
+import { APIRequester } from "./index";
 import * as Types from "../common-types";
 import { CookieJar, jar as createCookieJar, get as getRequest, post as postRequest } from "request";
+import { createDefaultHeaders } from "../util";
 
 /**
  * Class used to fire HTTP(S) requests.

@@ -1,4 +1,3 @@
-import * as constants from "../client-constants";
 import * as Types from "../common-types";
 
 export interface APIRequester {
@@ -6,12 +5,6 @@ export interface APIRequester {
 	post<T>(path: string, data?: Types.KeyValue<any>, ignoreNonce?: boolean): Promise<T>
 	post<T>(path: string, data: Types.KeyValue<any>, ignoreNonce?: boolean): Promise<T>
 	post<T>(path: string, data: Types.KeyValue<any>, ignoreNonce: boolean): Promise<T>
-}
-
-export function createDefaultHeaders() {
-	return {
-		"User-Agent": constants.getUserAgent()
-	};
 }
 
 export { NodeRequester } from "./node";

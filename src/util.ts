@@ -1,4 +1,5 @@
 import * as Types from "./common-types";
+import { getUserAgent } from "./client-constants";
 
 export function ensureUnixTimetamp(v: Types.Timestamp): Types.UnixTimestamp {
 	"use asm"; // Maximum micro optimization
@@ -9,4 +10,10 @@ export function ensureUnixTimetamp(v: Types.Timestamp): Types.UnixTimestamp {
 
 export function createTagList(tags: Types.Tag[]): Types.TagList {
 	return tags.join(",");
+}
+
+export function createDefaultHeaders() {
+	return {
+		"User-Agent": getUserAgent()
+	};
 }
