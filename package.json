@@ -2,8 +2,8 @@
   "name": "pr0gramm-api",
   "version": "2.2.5",
   "description": "Node.js pr0gramm API",
-  "main": "lib/lib.js",
-  "typings": "lib/lib.d.ts",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "compile": "tsc",
     "test": "tsc --noEmit",
