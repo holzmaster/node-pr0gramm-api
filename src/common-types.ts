@@ -60,7 +60,7 @@ export enum Vote {
 	Down = -1,
 	None = 0,
 	Up = 1,
-	Favorisieren = 2,
+	Favorite = 2,
 }
 
 export enum ItemFlags {
