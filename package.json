@@ -18,9 +18,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@types/node": "^11.13.4",
-    "@types/request": "^2.48.1",
-    "needle": "^2.3.0",
-    "request": "^2.88.0"
+    "needle": "^2.3.0"
   },
   "engines": {
     "node": ">=8.11.1"
