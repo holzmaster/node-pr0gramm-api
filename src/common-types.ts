@@ -53,8 +53,7 @@ export enum UserMark {
 	Altmoderator = 11,
 	Communityhelfer = 12,
 	Nutzerbot = 13,
-	Systembot = 14
-
+	Systembot = 14,
 }
 
 export enum Vote {
@@ -169,7 +168,9 @@ export interface Item {
 	promoted: PromotedID;
 	up: number;
 	down: number;
+	audio: boolean;
 	created: Timestamp;
+	deleted: 0 | 1;
 	image: ImageURL;
 	thumb: ThumbnailURL;
 	fullsize: FullSizeURL;
@@ -199,9 +200,7 @@ export type DeleteItemReason = "Regel #1 - Bild unzureichend getagged (nsfw/nsfl
 	| "Auf Anfrage";
 
 
-export interface KeyValue<T> {
-	[index: string]: T;
-}
+export type KeyValue<T> = Record<string, T>;
 
 export interface MeCookie {
 	a: number;
