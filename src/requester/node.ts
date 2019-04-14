@@ -1,9 +1,10 @@
-import { Agent } from "http";
+import * as needle from "needle";
 import * as constants from "../client-constants";
 import { APIRequester } from "./index";
 import * as Types from "../common-types";
-import { CookieJar, jar as createCookieJar, get as getRequest, post as postRequest } from "request";
-import { createDefaultHeaders } from "../util";
+import { createDefaultHeaders, addQueryParams } from "../util";
+
+export type Cookies = Record<string, any>;
 
 /**
  * Class used to fire HTTP(S) requests.
@@ -17,33 +18,43 @@ export class NodeRequester implements APIRequester {
 	 * @param insecure Use the insecure (non-https) protocol.
 	 */
 	constructor(
-		public cookies: CookieJar | false,
+		public cookies: Cookies | false,
 		private readonly insecure: boolean,
-		private readonly pool?: Agent,
 	) {
 		this.apiUrl = constants.getAPIBaseAddress(insecure);
 	}
 
-	public static create(insecure?: boolean, cookies?: CookieJar): APIRequester {
+	public static create(insecure?: boolean, cookies?: Cookies): APIRequester {
 		const cs = !cookies
 			? false
-			: (cookies ? cookies : createCookieJar());
-		return new NodeRequester(cs as CookieJar | false, !!insecure);
+			: (cookies ? cookies : {});
+		return new NodeRequester(cs as Cookies | false, !!insecure);
 	}
 
-	public get<T>(path: string, data?: Types.KeyValue<any>): Promise<T> {
-		const url = this.apiUrl + path;
-		return new Promise((resolve, reject) => {
-			getRequest(url, {
-				pool: this.pool,
-				qs: data || {},
+	public get<T>(path: string, queryString?: Types.KeyValue<any>): Promise<T> {
+		const url = addQueryParams(
+			this.apiUrl + path,
+			queryString,
+		);
+
+		console.log(url);
+
+		return needle(
+			"get",
+			url,
+			null, {
+				cookies: this.cookies || undefined,
+				follow_set_cookie: true,
 				headers: NodeRequester.headers,
-				jar: this.cookies,
-				json: true,
-			}, (err, response, body) => {
-				if (err) return reject(err);
-				if (response.statusCode === 200) return resolve(body);
-			});
+				parse_response: "json",
+				parse_cookies: true,
+			},
+		).then(res => {
+			if (res.cookies)
+				this.cookies = res.cookies;
+			if (res.statusCode && 200 <= res.statusCode && res.statusCode < 300)
+				return res.body;
+			throw new Error(res.statusMessage);
 		});
 	}
 
@@ -58,17 +69,23 @@ export class NodeRequester implements APIRequester {
 			body["_nonce"] = meCookie.id.substr(0, 16);
 		}
 
-		return new Promise((resolve, reject) => {
-			postRequest(url, {
-				pool: this.pool,
-				form: body,
+		return needle(
+			"post",
+			url,
+			body, {
+				cookies: this.cookies || undefined,
+				follow_set_cookie: true,
 				headers: NodeRequester.headers,
-				jar: this.cookies,
-				json: true,
-			}, (err, response, body) => {
-				if (err) return reject(err);
-				if (response.statusCode === 200) return resolve(body);
-			});
+				parse_response: "json",
+				parse_cookies: true,
+				content_type: "application/x-www-form-urlencoded",
+			},
+		).then(res => {
+			if (res.cookies)
+				this.cookies = res.cookies;
+			if (res.statusCode && 200 <= res.statusCode && res.statusCode < 300)
+				return res.body;
+			throw new Error(res.statusMessage);
 		});
 	}
 
