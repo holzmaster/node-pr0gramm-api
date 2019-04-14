@@ -24,8 +24,8 @@ export class NodeRequester implements APIRequester {
 		this.apiUrl = constants.getAPIBaseAddress(insecure);
 	}
 
-	public static create(cookies?: CookieJar | false, insecure?: boolean): APIRequester {
-		const cs = cookies === false
+	public static create(insecure: boolean, cookies?: CookieJar): APIRequester {
+		const cs = !cookies
 			? false
 			: (cookies ? cookies : createCookieJar());
 		return new NodeRequester(cs as CookieJar | false, !!insecure);
