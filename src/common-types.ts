@@ -169,6 +169,7 @@ export interface Item {
 	promoted: PromotedID;
 	up: number;
 	down: number;
+	audio: boolean;
 	created: Timestamp;
 	deleted: 0 | 1;
 	image: ImageURL;
