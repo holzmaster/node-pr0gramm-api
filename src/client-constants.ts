@@ -1,4 +1,4 @@
-const VERSION = "2.2.0";
+const VERSION = "3.0.0";
 const PROTOCOL_PREFIX = "https://";
 const PROTOCOL_PREFIX_INSECURE = "http://";
 const HOST_NAME = "pr0gramm.com";
