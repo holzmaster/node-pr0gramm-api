@@ -170,6 +170,7 @@ export interface Item {
 	up: number;
 	down: number;
 	created: Timestamp;
+	deleted: 0 | 1;
 	image: ImageURL;
 	thumb: ThumbnailURL;
 	fullsize: FullSizeURL;
