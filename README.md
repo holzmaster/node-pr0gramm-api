@@ -1,4 +1,4 @@
-# pr0gramm-api
+# pr0gramm-api [![Build Status](https://travis-ci.com/holzmaster/node-pr0gramm-api.svg?branch=master)](https://travis-ci.com/holzmaster/node-pr0gramm-api)
 A Node.js API for pr0gramm written in TypeScript.
 ```Shell
 npm install -S pr0gramm-api
