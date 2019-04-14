@@ -3,6 +3,7 @@
 		"module": "commonjs",
 		"lib": [
 			"es6",
+			"dom",
 			"esnext.asynciterable"
 		],
 		"target": "es6",
