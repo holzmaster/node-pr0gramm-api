@@ -11,7 +11,11 @@ import { Pr0grammAPI, NodeRequester, ItemFlags } from "pr0gramm-api";
 
 main();
 async function main() {
-    const api = Pr0grammAPI.create(NodeRequester.create());
+    const requester = NodeRequester.create();
+    // When using thie library in the browser, use this requester:
+    // const requester = BrowserRequester.create();
+
+    const api = Pr0grammAPI.create(requeser);
 
     const mainItems = await api.items.getItems({
         promoted: true,
