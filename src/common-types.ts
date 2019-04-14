@@ -200,9 +200,7 @@ export type DeleteItemReason = "Regel #1 - Bild unzureichend getagged (nsfw/nsfl
 	| "Auf Anfrage";
 
 
-export interface KeyValue<T> {
-	[index: string]: T;
-}
+export type KeyValue<T> = Record<string, T>;
 
 export interface MeCookie {
 	a: number;
