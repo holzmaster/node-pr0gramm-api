@@ -3,7 +3,6 @@ import { APIRequester } from "./index";
 import * as Types from "../common-types";
 import { createDefaultHeaders, addQueryParams } from "../util";
 
-
 export class BrowserRequester implements APIRequester {
 	private readonly apiUrl = constants.getAPIBaseAddress(false);
 	private static readonly headers = createDefaultHeaders();
