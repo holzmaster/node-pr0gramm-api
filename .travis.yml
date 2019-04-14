@@ -10,12 +10,20 @@ install: npm ci
 script: npm run compile
 
 deploy:
-  provider: npm
-  skip-cleanup: true
-  email: $NPM_EMAIL
-  api_key: $NPM_TOKEN
-  on:
-    branch: master
-    tags: true
-    node: node
-
+  - provider: npm
+    skip-cleanup: true
+    email: $NPM_EMAIL
+    api_key: $NPM_TOKEN
+    on:
+      branch: master
+      tags: true
+      node: node
+  - provider: npm
+    skip-cleanup: true
+    email: $NPM_EMAIL
+    api_key: $NPM_TOKEN
+    tag: next
+    on:
+      branch: master
+      tags: false
+      node: node
