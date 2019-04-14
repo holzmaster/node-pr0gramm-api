@@ -9,8 +9,8 @@ import { createDefaultHeaders } from "../util";
  * Class used to fire HTTP(S) requests.
  */
 export class NodeRequester implements APIRequester {
-	private readonly _apiUrl: string;
-	private static readonly _headers = createDefaultHeaders();
+	private readonly apiUrl: string;
+	private static readonly headers = createDefaultHeaders();
 
 	/**
 	 * @param cookies Pass false to ignore cookies. Pass a CookieJar to use cookies.
@@ -21,7 +21,7 @@ export class NodeRequester implements APIRequester {
 		private readonly insecure: boolean,
 		private readonly pool?: Agent,
 	) {
-		this._apiUrl = constants.getAPIBaseAddress(insecure);
+		this.apiUrl = constants.getAPIBaseAddress(insecure);
 	}
 
 	public static create(cookies?: CookieJar | false, insecure?: boolean): APIRequester {
@@ -32,12 +32,12 @@ export class NodeRequester implements APIRequester {
 	}
 
 	public get<T>(path: string, data?: Types.KeyValue<any>): Promise<T> {
-		const url = this._apiUrl + path;
+		const url = this.apiUrl + path;
 		return new Promise((resolve, reject) => {
 			getRequest(url, {
 				pool: this.pool,
 				qs: data || {},
-				headers: NodeRequester._headers,
+				headers: NodeRequester.headers,
 				jar: this.cookies,
 				json: true,
 			}, (err, response, body) => {
@@ -48,7 +48,7 @@ export class NodeRequester implements APIRequester {
 	}
 
 	public post<T>(path: string, data?: Types.KeyValue<any>, ignoreNonce: boolean = false): Promise<T> {
-		const url = this._apiUrl + path;
+		const url = this.apiUrl + path;
 		data = data || {};
 		if (!ignoreNonce) {
 			const meCookie = this.getMeCookie(this.insecure);
@@ -62,7 +62,7 @@ export class NodeRequester implements APIRequester {
 			postRequest(url, {
 				pool: this.pool,
 				form: data,
-				headers: NodeRequester._headers,
+				headers: NodeRequester.headers,
 				jar: this.cookies,
 				json: true,
 			}, (err, response, body) => {
