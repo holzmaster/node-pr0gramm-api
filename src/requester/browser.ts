@@ -11,10 +11,10 @@ export class BrowserRequester implements APIRequester {
 		return new BrowserRequester();
 	}
 
-	public get<T>(path: string, data?: Types.KeyValue<any>): Promise<T> {
+	public get<T>(path: string, queryString?: Types.KeyValue<any>): Promise<T> {
 		const url = addQueryParams(
 			this.apiUrl + path,
-			data,
+			queryString,
 		);
 
 		return fetch(
