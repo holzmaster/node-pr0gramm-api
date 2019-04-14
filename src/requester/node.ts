@@ -37,8 +37,6 @@ export class NodeRequester implements APIRequester {
 			queryString,
 		);
 
-		console.log(url);
-
 		return needle(
 			"get",
 			url,

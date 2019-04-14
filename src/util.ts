@@ -18,10 +18,25 @@ export function createDefaultHeaders() {
 	};
 }
 
-export type QueryParams = Record<string, string>;
+export type QueryParams = Record<string, string | undefined>;
 
 export function addQueryParams(url: string, params: QueryParams | undefined) {
 	return params
-		? url + "?" + new URLSearchParams(params).toString()
+		? url + "?" + encodeQueryParams(params)
 		: url;
+}
+
+export function encodeQueryParams(params: QueryParams | undefined): string {
+	return params === undefined
+		? ""
+		: new URLSearchParams(removeUndefinedValues(params)).toString();
+}
+
+/**
+ * Taken from: https://stackoverflow.com/a/38340730
+ */
+function removeUndefinedValues(qp: Record<string, string | undefined>): Record<string, string> {
+	const copy = { ...qp };
+	Object.keys(copy).forEach((key) => (copy[key] === undefined) && delete copy[key]);
+	return copy as Record<string, string>
 }

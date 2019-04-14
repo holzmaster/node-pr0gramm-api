@@ -1,7 +1,7 @@
 import * as constants from "../client-constants";
 import { APIRequester } from "./index";
 import * as Types from "../common-types";
-import { createDefaultHeaders, addQueryParams } from "../util";
+import { createDefaultHeaders, addQueryParams, encodeQueryParams } from "../util";
 
 export class BrowserRequester implements APIRequester {
 	private readonly apiUrl = constants.getAPIBaseAddress(false);
@@ -42,7 +42,7 @@ export class BrowserRequester implements APIRequester {
 				method: "post",
 				headers: BrowserRequester.headers,
 				credentials: "include",
-				body: new URLSearchParams(body),
+				body: encodeQueryParams(body),
 			}
 		).then(processResponse);
 	}
