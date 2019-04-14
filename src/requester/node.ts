@@ -24,7 +24,7 @@ export class NodeRequester implements APIRequester {
 		this.apiUrl = constants.getAPIBaseAddress(insecure);
 	}
 
-	public static create(insecure: boolean, cookies?: CookieJar): APIRequester {
+	public static create(insecure?: boolean, cookies?: CookieJar): APIRequester {
 		const cs = !cookies
 			? false
 			: (cookies ? cookies : createCookieJar());
@@ -47,21 +47,21 @@ export class NodeRequester implements APIRequester {
 		});
 	}
 
-	public post<T>(path: string, data?: Types.KeyValue<any>, ignoreNonce: boolean = false): Promise<T> {
+	public post<T>(path: string, body: Types.KeyValue<any> = {}, ignoreNonce: boolean = false): Promise<T> {
 		const url = this.apiUrl + path;
-		data = data || {};
+
 		if (!ignoreNonce) {
 			const meCookie = this.getMeCookie(this.insecure);
 			if (meCookie === null || !meCookie.id)
 				throw new Error(`Not logged in. The post request to ${path} requires authentication.`);
 
-			data["_nonce"] = meCookie.id.substr(0, 16);
+			body["_nonce"] = meCookie.id.substr(0, 16);
 		}
 
 		return new Promise((resolve, reject) => {
 			postRequest(url, {
 				pool: this.pool,
-				form: data,
+				form: body,
 				headers: NodeRequester.headers,
 				jar: this.cookies,
 				json: true,
