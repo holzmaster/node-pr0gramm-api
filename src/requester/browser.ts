@@ -1,14 +1,20 @@
-import * as constants from "../client-constants";
+import { PR0GRAMM_BASE_URL, PR0GRAMM_API_PATH } from "../client-constants";
 import { APIRequester } from "./index";
 import * as Types from "../common-types";
 import { createDefaultHeaders, addQueryParams, encodeQueryParams } from "../util";
 
 export class BrowserRequester implements APIRequester {
-	private readonly apiUrl = constants.getAPIBaseAddress(false);
+	private readonly apiUrl: string;
 	private static readonly headers = createDefaultHeaders();
 
-	public static create(): APIRequester {
-		return new BrowserRequester();
+	constructor(
+		public readonly baseUrl: string,
+	) {
+		this.apiUrl = baseUrl + PR0GRAMM_API_PATH;
+	}
+
+	public static create(baseUrl: string = PR0GRAMM_BASE_URL): APIRequester {
+		return new BrowserRequester(baseUrl);
 	}
 
 	public get<T>(path: string, queryString?: Types.KeyValue<any>): Promise<T> {

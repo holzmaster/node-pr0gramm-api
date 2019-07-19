@@ -1,5 +1,5 @@
 import * as needle from "needle";
-import * as constants from "../client-constants";
+import { PR0GRAMM_BASE_URL, PR0GRAMM_API_PATH } from "../client-constants";
 import { APIRequester } from "./index";
 import * as Types from "../common-types";
 import { createDefaultHeaders, addQueryParams } from "../util";
@@ -19,16 +19,16 @@ export class NodeRequester implements APIRequester {
 	 */
 	constructor(
 		public cookies: Cookies | false,
-		private readonly insecure: boolean,
+		private readonly baseUrl: string,
 	) {
-		this.apiUrl = constants.getAPIBaseAddress(insecure);
+		this.apiUrl = baseUrl + PR0GRAMM_API_PATH;
 	}
 
-	public static create(insecure?: boolean, cookies?: Cookies): APIRequester {
+	public static create(baseUrl: string = PR0GRAMM_BASE_URL, cookies?: Cookies): APIRequester {
 		const cs = !cookies
 			? false
 			: (cookies ? cookies : {});
-		return new NodeRequester(cs as Cookies | false, !!insecure);
+		return new NodeRequester(cs as Cookies | false, baseUrl);
 	}
 
 	public get<T>(path: string, queryString?: Types.KeyValue<any>): Promise<T> {
@@ -60,7 +60,7 @@ export class NodeRequester implements APIRequester {
 		const url = this.apiUrl + path;
 
 		if (!ignoreNonce) {
-			const meCookie = this.getMeCookie(this.insecure);
+			const meCookie = this.getMeCookie();
 			if (meCookie === null || !meCookie.id)
 				throw new Error(`Not logged in. The post request to ${path} requires authentication.`);
 
@@ -87,12 +87,11 @@ export class NodeRequester implements APIRequester {
 		});
 	}
 
-	private getMeCookie(insecure: boolean): Types.MeCookie | null {
-		const addr = constants.getBaseAddress(insecure);
+	private getMeCookie(): Types.MeCookie | null {
 		const thisCookies = this.cookies;
 		if (thisCookies === false)
 			return null;
-		const cs = thisCookies.getCookies(addr);
+		const cs = thisCookies.getCookies(this.baseUrl);
 		for (const c of cs) {
 			if (!c) continue;
 			// TODO DANGEROUS
