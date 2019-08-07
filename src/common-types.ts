@@ -82,7 +82,7 @@ export interface Comment {
 	id: CommentID;
 	up: number;
 	down: number;
-	created: Timestamp;
+	created: UnixTimestamp;
 	content: string;
 }
 
@@ -119,7 +119,8 @@ export interface ProfileComment extends Comment {
 export interface LikedProfileComment extends Comment {
 	itemId: ItemID;
 	thumb: ThumbnailURL;
-	ccreated: Timestamp; // Timestamp wann der Kommentar als Favorit markiert wurde
+	/** Timestamp, wann der Kommentar als Favorit markiert wurde. */
+	ccreated: UnixTimestamp;
 	mark: UserMark;
 	userId: UserID;
 	name: Username;
@@ -132,11 +133,11 @@ export interface CommentUser {
 }
 
 export interface User extends CommentUser {
-	registered: Timestamp;
+	registered: UnixTimestamp;
 	score: Score;
 	admin: boolean;
 	banned: boolean;
-	bannedUntil?: Timestamp;
+	bannedUntil?: UnixTimestamp;
 	itemDelete: number;
 	commentDelete: number;
 	inactive: boolean;
@@ -147,8 +148,8 @@ export interface FollowedUser {
 	thumb: ThumbnailURL;
 	name: Username;
 	mark: UserMark;
-	lastPost: Timestamp;
-	followCreated: Timestamp;
+	lastPost: UnixTimestamp;
+	followCreated: UnixTimestamp;
 }
 
 export interface InvitingUser {
@@ -166,7 +167,7 @@ export interface ProfileBadge {
 	image: BadgeImageURL;
 	description: string;
 	link: BadgeLinkURL;
-	created: Timestamp;
+	created: UnixTimestamp;
 }
 
 export interface DynamicProfileBadge extends ProfileBadge {
@@ -180,7 +181,7 @@ export interface Item {
 	up: number;
 	down: number;
 	audio: boolean;
-	created: Timestamp;
+	created: UnixTimestamp;
 	deleted: 0 | 1;
 	image: ImageURL;
 	thumb: ThumbnailURL;
@@ -217,7 +218,7 @@ export interface MeCookie {
 	a: number;
 	fl: number;
 	id: SessionID;
-	lv: Timestamp;
+	lv: UnixTimestamp;
 	n: Username;
 	paid: boolean;
 	pp: boolean;
@@ -232,7 +233,7 @@ export interface AccountInfo {
 	invites: number;
 	mark: UserMark;
 	markDefault: UserMark;
-	paidUntil: Timestamp;
+	paidUntil: UnixTimestamp;
 }
 
 /**
@@ -253,7 +254,7 @@ export interface TokenProduct {
 
 export interface BanInfo {
 	banned: boolean;
-	till: Timestamp | null;
+	till: UnixTimestamp | null;
 	reason: string | null;
 }
 
