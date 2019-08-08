@@ -132,15 +132,21 @@ export interface CommentUser {
 	mark: UserMark;
 }
 
-export interface User extends CommentUser {
+export type User = BannedUser | ActiveUser;
+export interface BaseUser  extends CommentUser {
 	registered: UnixTimestamp;
 	score: Score;
 	admin: boolean;
-	banned: boolean;
-	bannedUntil?: UnixTimestamp;
 	itemDelete: number;
 	commentDelete: number;
 	inactive: boolean;
+}
+export interface BannedUser extends BaseUser {
+	banned: false;
+}
+export interface ActiveUser extends BaseUser {
+	banned: true;
+	bannedUntil: UnixTimestamp;
 }
 
 export interface FollowedUser {
