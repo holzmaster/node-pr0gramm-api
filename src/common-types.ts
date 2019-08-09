@@ -175,10 +175,18 @@ export interface ProfileBadge {
 	link: BadgeLinkURL;
 	created: UnixTimestamp;
 }
-
-export interface DynamicProfileBadge extends ProfileBadge {
+export type DynamicProfileBadge = SvgDynamicProfileBadge | PngDynamicProfileBadge;
+export interface DynamicProfileBadgeBase extends Omit<ProfileBadge, "created"> {
 	name: string; // ??
 	extra: string;
+}
+export interface SvgDynamicProfileBadge extends DynamicProfileBadgeBase {
+	height: number;
+	type: "svg";
+}
+export interface PngDynamicProfileBadge extends DynamicProfileBadgeBase {
+	height: null;
+	type: "png";
 }
 
 export interface Item {
