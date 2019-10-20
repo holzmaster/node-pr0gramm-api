@@ -86,15 +86,17 @@ export interface Comment {
 	content: string;
 }
 
-export interface Tag {
-	id: TagID;
-	tag: string;
+export interface RatedElement {
 	confidence: Confidence;
 }
 
-export interface ItemComment extends Comment {
+export interface Tag extends RatedElement {
+	id: TagID;
+	tag: string;
+}
+
+export interface ItemComment extends Comment, RatedElement{
 	parent: CommentID | null;
-	confidence: Confidence;
 	name: Username;
 	mark: UserMark;
 }
