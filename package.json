@@ -17,7 +17,7 @@
   "author": "holzmaster",
   "license": "GPL-3.0",
   "dependencies": {
-    "@types/node": "^12.7.1",
+    "@types/node": "^13.1.0",
     "needle": "^2.4.0"
   },
   "engines": {
@@ -25,6 +25,6 @@
   },
   "devDependencies": {
     "@types/needle": "^2.0.4",
-    "typescript": "^3.5.3"
+    "typescript": "^3.7.4"
   }
 }
