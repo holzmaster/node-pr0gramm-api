@@ -18,12 +18,13 @@ deploy:
       branch: master
       tags: true
       node: node
-  - provider: npm
-    skip-cleanup: true
-    email: $NPM_EMAIL
-    api_key: $NPM_TOKEN
-    tag: next
-    on:
-      branch: master
-      tags: false
-      node: node
+
+#  - provider: npm
+#    skip-cleanup: true
+#    email: $NPM_EMAIL
+#    api_key: $NPM_TOKEN
+#    tag: next
+#    on:
+#      branch: master
+#      tags: false
+#      node: node
