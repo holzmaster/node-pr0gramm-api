@@ -8,7 +8,7 @@ export interface Pr0grammResponse {
 }
 
 export interface GetItemsInfoResponse extends Pr0grammResponse {
-	tags: Types.Tag[];
+	tags: Types.ItemTag[];
 	comments: Types.ItemComment[];
 }
 

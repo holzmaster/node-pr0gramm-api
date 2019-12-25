@@ -8,8 +8,8 @@ export function ensureUnixTimetamp(v: Types.Timestamp): Types.UnixTimestamp {
 		: (v.getTime() / 1000) | 0;
 }
 
-export function createTagList(tags: Types.Tag[]): Types.TagList {
-	return tags.join(",");
+export function createTagList(tags: readonly Types.TagContent[]): Types.TagList {
+	return tags.join(" ");
 }
 
 export function createDefaultHeaders() {

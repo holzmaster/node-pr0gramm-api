@@ -172,7 +172,7 @@ export interface GetItemsOptions {
 
 	// TODO: Split this into different types
 	self?: boolean;
-	tags?: Types.Tag[];
+	tags?: Types.TagContent[];
 	user?: Types.Username;
 	likes?: Types.Likes;
 }
@@ -267,7 +267,7 @@ export class Pr0grammTagsService {
 		private readonly requester: APIRequester,
 	) { }
 
-	public add(itemId: Types.ItemID, tags: Types.Tag[]): Promise<Response.Pr0grammResponse> {
+	public add(itemId: Types.ItemID, tags: readonly Types.TagContent[]): Promise<Response.Pr0grammResponse> {
 		const path = `/tags/add`;
 		return this.requester.post(path, {
 			itemId,
@@ -276,7 +276,8 @@ export class Pr0grammTagsService {
 		});
 	}
 
-	public delete(itemId: Types.ItemID, banUsers: boolean, days: Types.BanDuration, tags: Types.Tag[]): Promise<Response.Pr0grammResponse> {
+	/** TODO: This may not work */
+	public delete(itemId: Types.ItemID, banUsers: boolean, days: Types.BanDuration, tags: readonly Types.TagContent[]): Promise<Response.Pr0grammResponse> {
 		const path = `/tags/delete`;
 		return this.requester.post(path, { itemId, tags, banUsers, days });
 	}

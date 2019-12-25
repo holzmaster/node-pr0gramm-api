@@ -8,6 +8,7 @@ export type PromotedID = number;
 export type Score = number;
 export type LogItem = object; // TODO
 
+/** Space-separated list of tags. */
 export type TagList = string;
 export type SessionID = string;
 export type ChangeEmailToken = string;
@@ -90,9 +91,11 @@ export interface RatedElement {
 	confidence: Confidence;
 }
 
-export interface Tag extends RatedElement {
+export type TagContent = string;
+
+export interface ItemTag extends RatedElement {
 	id: TagID;
-	tag: string;
+	tag: TagContent;
 }
 
 export interface ItemComment extends Comment, RatedElement{
