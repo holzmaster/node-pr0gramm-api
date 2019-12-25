@@ -1,7 +1,7 @@
 obj/
 bin/
 *.suo
-/*.js
+*.js
 *.js.map
 .ntvs*
 *.log
