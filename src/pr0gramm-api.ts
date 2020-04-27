@@ -455,7 +455,7 @@ export class Pr0grammUserService {
 			userId: userName,
 			clientId,
 			clientSecret,
-		});
+		}, true);
 	}
 	public getUserName(): Promise<Response.GetUserNameResponse> {
 		const path = `/user/name`;
