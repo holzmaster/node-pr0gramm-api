@@ -110,3 +110,14 @@ export interface MessagesResponse extends Pr0grammResponse {
 	messages: Types.Message[];
 	atEnd: boolean;
 }
+
+export interface AccessTokenResponse extends Pr0grammResponse {
+	accessToken: string;
+}
+export interface GetUserNameResponse extends Pr0grammResponse {
+	name: string;
+}
+
+export interface GetUserScoreResponse extends Pr0grammResponse {
+	score: number;
+}

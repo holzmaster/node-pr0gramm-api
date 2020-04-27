@@ -85,20 +85,20 @@ export class Pr0grammItemsService {
 		return this.walkStream(
 			options.newer,
 			options, {
-				getNextId: res => res.items[res.items.length - 1].id,
-				shouldContinue: res => !res.atStart,
-				getItems: (opts, currentId) => this.getItemsNewer({ ...opts, newer: currentId }),
-			}
+			getNextId: res => res.items[res.items.length - 1].id,
+			shouldContinue: res => !res.atStart,
+			getItems: (opts, currentId) => this.getItemsNewer({ ...opts, newer: currentId }),
+		}
 		);
 	}
 	public walkStreamOlder(options: GetItemsOlderOptions): AsyncIterableIterator<Types.Item> {
 		return this.walkStream(
 			options.older,
 			options, {
-				getNextId: res => res.items[res.items.length - 1].id,
-				shouldContinue: res => !res.atEnd,
-				getItems: (opts, currentId) => this.getItemsOlder({ ...opts, older: currentId }),
-			}
+			getNextId: res => res.items[res.items.length - 1].id,
+			shouldContinue: res => !res.atEnd,
+			getItems: (opts, currentId) => this.getItemsOlder({ ...opts, older: currentId }),
+		}
 		);
 	}
 
@@ -436,6 +436,34 @@ export class Pr0grammUserService {
 	public validate(token: Types.Token): Promise<Response.SuccessableResponse> {
 		const path = `/user/validate`;
 		return this.requester.post(path, { token });
+	}
+
+	/**
+	 * Fordert einen accessToken für den oAuth-Login an.
+	 * Nachempfunden der Implementierung von @RundesBalli:
+	 * https://github.com/RundesBalli/pr0gramm-bondrucker/blob/b43038b713311c14564e941b798edfc67176dda2/public/inc/auth.php#L75-L80
+	 *
+	 * @param authCode Authcode, der über oAuth angefordert wurde.
+	 * @param userName Nutzername des Users
+	 * @param clientId ID der Anwendung, die im Backend von pr0gramm hinterlegt ist.
+	 * @param clientSecret Geheimnis, das im Backend zu der Anwendung hinterlegt ist.
+	 */
+	public getAuthToken(authCode: string, userName: string, clientId: string, clientSecret: string): Promise<Response.AccessTokenResponse> {
+		const path = `/user/authtoken`;
+		return this.requester.post(path, {
+			authCode,
+			userId: userName,
+			clientId,
+			clientSecret,
+		});
+	}
+	public getUserName(): Promise<Response.GetUserNameResponse> {
+		const path = `/user/name`;
+		return this.requester.get(path);
+	}
+	public getUserScore(): Promise<Response.GetUserScoreResponse> {
+		const path = `/user/score`;
+		return this.requester.get(path);
 	}
 }
 
