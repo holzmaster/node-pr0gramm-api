@@ -7,7 +7,7 @@
   "scripts": {
     "compile": "tsc",
     "test": "tsc --noEmit",
-    "prepare": "npm run compile"
+    "prepublishOnly": "npm run compile"
   },
   "keywords": [
     "pr0gramm",
