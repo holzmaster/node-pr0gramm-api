@@ -17,14 +17,14 @@
   "author": "holzmaster",
   "license": "GPL-3.0",
   "dependencies": {
-    "@types/node": "^13.1.0",
-    "needle": "^2.4.0"
+    "@types/node": "^13.13.4",
+    "needle": "^2.4.1"
   },
   "engines": {
     "node": ">=8.11.1"
   },
   "devDependencies": {
     "@types/needle": "^2.0.4",
-    "typescript": "^3.7.4"
+    "typescript": "^3.8.3"
   }
 }
