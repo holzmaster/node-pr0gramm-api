@@ -30,6 +30,7 @@ export class NodeRequester implements APIRequester {
 		this.oAuthAccessToken = accessToken;
 	}
 
+	// TODO: Support passing the API key in the create function
 	public static create(baseUrl: string = PR0GRAMM_BASE_URL, cookies?: Cookies): APIRequester {
 		const cs = !cookies
 			? false

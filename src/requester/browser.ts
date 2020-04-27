@@ -15,6 +15,7 @@ export class BrowserRequester implements APIRequester {
 		this.apiUrl = baseUrl + PR0GRAMM_API_PATH;
 	}
 
+	// TODO: Support passing the API key in the create function
 	public static create(baseUrl: string = PR0GRAMM_BASE_URL): APIRequester {
 		return new BrowserRequester(baseUrl);
 	}
