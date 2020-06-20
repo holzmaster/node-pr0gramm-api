@@ -30,7 +30,6 @@ export type Likes = string; // TODO: What is this?
 export type Pr0grammError = object;
 
 export type Cache = string | null;
-export type Roundtrip = number;
 
 export type Pr0grammURL = string;
 export type ThumbnailURL = Pr0grammURL;
