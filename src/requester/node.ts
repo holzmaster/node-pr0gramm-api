@@ -91,14 +91,15 @@ export class NodeRequester implements APIRequester {
 		return needle(
 			"post",
 			url,
-			body, {
-			cookies: this.cookies || undefined,
-			follow_set_cookie: true,
-			headers,
-			parse_response: "json",
-			parse_cookies: true,
-			content_type: "application/x-www-form-urlencoded",
-		},
+			body,
+			{
+				cookies: this.cookies || undefined,
+				follow_set_cookie: true,
+				headers,
+				parse_response: "json",
+				parse_cookies: true,
+				content_type: "application/x-www-form-urlencoded",
+			},
 		).then(res => {
 			if (res.cookies)
 				this.cookies = res.cookies;
