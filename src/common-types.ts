@@ -278,8 +278,8 @@ export interface BanInfo {
 
 export interface Conversation {
 	mark: number;
-	name: string;
-	lastMessage: number;
+	name: Username;
+	lastMessage: UnixTimestamp;
 	unreadCount: number;
 }
 
@@ -287,8 +287,8 @@ export interface Message {
 	id: number;
 	sent: number;
 	read: number;
-	name: string;
+	name: Username;
 	mark: number;
-	created: number;
+	created: UnixTimestamp;
 	message: string;
 }
