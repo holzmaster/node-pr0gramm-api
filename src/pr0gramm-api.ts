@@ -444,15 +444,15 @@ export class Pr0grammUserService {
 	 * https://github.com/RundesBalli/pr0gramm-bondrucker/blob/b43038b713311c14564e941b798edfc67176dda2/public/inc/auth.php#L75-L80
 	 *
 	 * @param authCode Authcode, der über oAuth angefordert wurde.
-	 * @param userName Nutzername des Users
+	 * @param userId Irgendeine kryptische User-ID
 	 * @param clientId ID der Anwendung, die im Backend von pr0gramm hinterlegt ist.
 	 * @param clientSecret Geheimnis, das im Backend zu der Anwendung hinterlegt ist.
 	 */
-	public getAuthToken(authCode: string, userName: string, clientId: string, clientSecret: string): Promise<Response.AccessTokenResponse> {
+	public getAuthToken(authCode: string, userId: string, clientId: string, clientSecret: string): Promise<Response.AccessTokenResponse> {
 		const path = `/user/authtoken`;
 		return this.requester.post(path, {
 			authCode,
-			userId: userName,
+			userId,
 			clientId,
 			clientSecret,
 		}, true);
