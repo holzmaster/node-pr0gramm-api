@@ -11,6 +11,7 @@ export class Pr0grammAPI {
 
 	public readonly items: Pr0grammItemsService;
 	public readonly tags: Pr0grammTagsService;
+	public readonly messages: Pr0grammMessageService;
 	public readonly comments: Pr0grammCommentsService;
 	public readonly profile: Pr0grammProfileService;
 	public readonly contact: Pr0grammContactService;
@@ -25,6 +26,7 @@ export class Pr0grammAPI {
 	) {
 		this.items = new Pr0grammItemsService(requester);
 		this.tags = new Pr0grammTagsService(requester);
+		this.messages = new Pr0grammMessageService(requester);
 		this.comments = new Pr0grammCommentsService(requester);
 		this.profile = new Pr0grammProfileService(requester);
 		this.contact = new Pr0grammContactService(requester);
