@@ -387,9 +387,19 @@ export class Pr0grammUserService {
 		return this.requester.post(path, { token });
 	}
 
-	public login(name: Types.Username, password: Types.Password): Promise<Response.LogInResponse> {
+	public requestCaptcha(): Promise<CaptchaResponse> {
+		const path = `/user/captcha`;
+		return this.requester.post(path, undefined, true);
+	}
+
+	public login(name: Types.Username, password: Types.Password, captchaToken: CaptchaResponse["token"], captchaSolution: string): Promise<Response.LogInResponse> {
 		const path = `/user/login`;
-		return this.requester.post(path, { name, password }, true);
+		return this.requester.post(path, {
+			name,
+			password,
+			token: captchaToken,
+			captcha: captchaSolution,
+		}, true);
 	}
 
 	public logout(id: Types.SessionID): Promise<Response.Pr0grammResponse> {
@@ -467,6 +477,12 @@ export class Pr0grammUserService {
 		const path = `/user/score`;
 		return this.requester.get(path);
 	}
+}
+
+export interface CaptchaResponse {
+	token: string;
+	/** Most likely contains a data URI  */
+	captcha: string;
 }
 
 export interface SiteSettingsOptions {

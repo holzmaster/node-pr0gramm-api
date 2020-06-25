@@ -24,7 +24,10 @@ async function main() {
 
     console.log(mainItems.items);
 
-    const loginResponse = await api.user.login("cha0s", "stahl0fen80");
+    const captchaData = await api.user.requestCaptcha();
+    // captchaData.captcha contains the image as a data URI
+
+    const loginResponse = await api.user.login("cha0s", "stahl0fen80", captchaData.token, "aaaaa");
     if(!loginResponse.success) {
         console.log("Could not log in :(");
         if(loginResponse.ban !== null) {
