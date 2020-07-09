@@ -7,3 +7,4 @@ bin/
 *.log
 node_modules/
 lib/
+_site/
