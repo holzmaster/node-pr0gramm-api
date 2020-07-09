@@ -230,6 +230,7 @@ export type DeleteItemReason = "Regel #1 - Bild unzureichend getagged (nsfw/nsfl
 	| "Auf Anfrage";
 
 
+// TODO: Rename this to MapLike
 export type KeyValue<T> = Record<string, T>;
 
 export interface MeCookie {

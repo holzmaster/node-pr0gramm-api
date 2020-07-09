@@ -4,7 +4,7 @@ import { APIRequester } from "./index";
 import * as Types from "../common-types";
 import { createDefaultHeaders, addQueryParams, addApiKeyToHeader } from "../util";
 
-export type Cookies = Record<string, any>;
+export type Cookies = Record<string, unknown>;
 
 /**
  * Class used to fire HTTP(S) requests.
@@ -113,21 +113,33 @@ export class NodeRequester implements APIRequester {
 		const thisCookies = this.cookies;
 		if (thisCookies === false)
 			return null;
-		const cs = thisCookies.getCookies(this.baseUrl);
-		for (const c of cs) {
-			if (!c) continue;
-			// TODO DANGEROUS
-			// But there are no good definitions for request's cookies :(
-			const ct = c as any as { key: string, value: string };
-			if (ct.key === "me") {
-				const meCookeStr = decodeURIComponent(ct.value);
-				try {
-					return JSON.parse(meCookeStr);
-				}
-				catch (ex) {
-					return null;
+
+		const me = thisCookies?.me;
+		if(me) {
+			return JSON.parse(me as string);
+		}
+
+		if (typeof thisCookies.getCookies === "function") {
+			// Whatever this code does. It is probably an artifact of the past (when the cookie object was an instance of some library class) and should be removed.
+			// We keep it for now for compat.
+
+			const cs = thisCookies.getCookies(this.baseUrl);
+			for (const c of cs) {
+				if (!c) continue;
+				// TODO DANGEROUS
+				// But there are no good definitions for request's cookies :(
+				const ct = c as any as { key: string, value: string };
+				if (ct.key === "me") {
+					const meCookeStr = decodeURIComponent(ct.value);
+					try {
+						return JSON.parse(meCookeStr);
+					}
+					catch (ex) {
+						return null;
+					}
 				}
 			}
+
 		}
 		return null;
 	}
