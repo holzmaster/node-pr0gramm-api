@@ -22,7 +22,7 @@
     "typedoc": "^0.17.8"
   },
   "engines": {
-    "node": ">=8.11.1"
+    "node": ">=12.18.2"
   },
   "devDependencies": {
     "@types/needle": "^2.0.4",
