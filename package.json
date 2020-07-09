@@ -19,7 +19,6 @@
   "dependencies": {
     "@types/node": "^14.0.20",
     "needle": "^2.5.0",
-    "type2docfx": "^0.10.5",
     "typedoc": "^0.17.8"
   },
   "engines": {
