@@ -6,6 +6,8 @@ import { ensureUnixTimetamp, createTagList } from "./util";
 
 /**
  * A set of APIs to interact with pr0gramm. Its design is based on the API the site uses.
+ *
+ * If you don't need the whole API, you can instantiate the services yourself (e. g. Pr0grammItemsService).
  */
 export class Pr0grammAPI {
 
@@ -17,10 +19,6 @@ export class Pr0grammAPI {
 	public readonly contact: Pr0grammContactService;
 	public readonly user: Pr0grammUserService;
 
-	/**
-	 * @param cookies Pass false to ignore cookies. Pass a CookieJar to use cookies. If a falsy value (except false, of course) is passed, a new CookieJar will be created internally.
-	 * @param _insecure Use the insecure (non-https) protocol.
-	 */
 	private constructor(
 		public readonly requester: APIRequester,
 	) {
@@ -451,14 +449,14 @@ export class Pr0grammUserService {
 	}
 
 	/**
-	 * Fordert einen accessToken für den oAuth-Login an.
-	 * Nachempfunden der Implementierung von @RundesBalli:
+	 * Requests an accessToken for the oAuth login.
+	 * Inspired by the implementation of @RundesBalli:
 	 * https://github.com/RundesBalli/pr0gramm-bondrucker/blob/b43038b713311c14564e941b798edfc67176dda2/public/inc/auth.php#L75-L80
 	 *
-	 * @param authCode Authcode, der über oAuth angefordert wurde.
-	 * @param userId Irgendeine kryptische User-ID
-	 * @param clientId ID der Anwendung, die im Backend von pr0gramm hinterlegt ist.
-	 * @param clientSecret Geheimnis, das im Backend zu der Anwendung hinterlegt ist.
+	 * @param authCode The auth code that the pr0Auth API returned.
+	 * @param userId Some cryptic user id, retrieved via the API.
+	 * @param clientId ID of the application that is registered in the backend of pr0gramm.com (if you don't have this, request ask some admin).
+	 * @param clientSecret Secret that is associated with the client id.
 	 */
 	public getAuthToken(authCode: string, userId: string, clientId: string, clientSecret: string): Promise<Response.AccessTokenResponse> {
 		const path = `/user/authtoken`;
@@ -481,7 +479,7 @@ export class Pr0grammUserService {
 
 export interface CaptchaResponse {
 	token: string;
-	/** Most likely contains a data URI  */
+	/** Most likely contains a data URI */
 	captcha: string;
 }
 
