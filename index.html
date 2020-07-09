@@ -1,0 +1,208 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>pr0gramm-api</title>
+	<meta name="description" content="Documentation for pr0gramm-api">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">pr0gramm-api</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>pr0gramm-api</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#pr0gramm-api-" id="pr0gramm-api-" style="color: inherit; text-decoration: none;">
+					<h1>pr0gramm-api <a href="https://travis-ci.com/holzmaster/node-pr0gramm-api"><img src="https://travis-ci.com/holzmaster/node-pr0gramm-api.svg?branch=master" alt="Build Status"></a></h1>
+				</a>
+				<p>A Node.js API for pr0gramm written in TypeScript.</p>
+				<pre><code class="language-Shell">npm install -S pr0gramm-api</code></pre>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<p>TypeScript:</p>
+				<pre><code class="language-TypeScript"><span class="hljs-keyword">import</span> { Pr0grammAPI, NodeRequester, ItemFlags } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;pr0gramm-api&quot;</span>;
+
+main();
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">const</span> requester = NodeRequester.create();
+    <span class="hljs-comment">// When using this library in the browser, use this requester:</span>
+    <span class="hljs-comment">// const requester = BrowserRequester.create();</span>
+
+    <span class="hljs-keyword">const</span> api = Pr0grammAPI.create(requester);
+
+    <span class="hljs-keyword">const</span> mainItems = <span class="hljs-keyword">await</span> api.items.getItems({
+        promoted: <span class="hljs-literal">true</span>,
+        flags: ItemFlags.SFW
+    });
+
+    <span class="hljs-built_in">console</span>.log(mainItems.items);
+
+    <span class="hljs-keyword">const</span> captchaData = <span class="hljs-keyword">await</span> api.user.requestCaptcha();
+    <span class="hljs-comment">// captchaData.captcha contains the image as a data URI</span>
+
+    <span class="hljs-keyword">const</span> loginResponse = <span class="hljs-keyword">await</span> api.user.login(<span class="hljs-string">&quot;cha0s&quot;</span>, <span class="hljs-string">&quot;stahl0fen80&quot;</span>, captchaData.token, <span class="hljs-string">&quot;aaaaa&quot;</span>);
+    <span class="hljs-keyword">if</span>(!loginResponse.success) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Could not log in :(&quot;</span>);
+        <span class="hljs-keyword">if</span>(loginResponse.ban !== <span class="hljs-literal">null</span>) {
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;You are banned. Reason:&quot;</span>);
+            <span class="hljs-built_in">console</span>.log(loginResponse.ban.reason);
+            <span class="hljs-keyword">return</span>;
+        }
+    }
+}</code></pre>
+				<a href="#stream-walker" id="stream-walker" style="color: inherit; text-decoration: none;">
+					<h3>Stream Walker</h3>
+				</a>
+				<p>The item stream requires you to call the next page of elements. Because it is a common operation to just walk over all items in the stream, there is a stream walker api for convenience:</p>
+				<pre><code class="language-TypeScript"><span class="hljs-keyword">import</span> { Pr0grammAPI, NodeRequester, ItemFlags } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;pr0gramm-api&quot;</span>;
+
+main();
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">const</span> api = Pr0grammAPI.create(NodeRequester.create());
+
+    <span class="hljs-comment">// Create a walker that iterates through the entire stream of elements</span>
+    <span class="hljs-comment">// starting at item 0, going upwards</span>
+    <span class="hljs-keyword">const</span> itemStream = api.items.walkStreamNewer({
+        newer: <span class="hljs-number">0</span>,
+        flags: ItemFlags.SFW,
+        promoted: <span class="hljs-literal">false</span>,
+    });
+
+    <span class="hljs-comment">// Asynchronous iteration over all items on pr0gramm</span>
+    <span class="hljs-comment">// automatically requests next items</span>
+    <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> item <span class="hljs-keyword">of</span> itemStream) {
+        <span class="hljs-built_in">console</span>.log(item.id + <span class="hljs-string">&quot;: &quot;</span> + item.user);
+    }
+}</code></pre>
+				<p><em>Important</em>:</p>
+				<ul>
+					<li>This approach uses async generators, which are currently hidden behind node&#39;s <code>--harmony</code> flag. To use this API, you need to start node with <code>--harmony</code>.</li>
+					<li>If you are using TypeScript, you need to have <code>&quot;esnext.asynciterable&quot;</code> and <code>&quot;es6&quot;</code> in your <code>lib</code> entry in <code>tsconfig.json</code>.</li>
+					<li>The module is exposed as CommonJS, not (yet) ES modules. If you use plain JavaScript, keep in mind using CommonJS imports instead of ES imports: <code>const { Pr0grammAPI, ItemFlags } = require(&quot;pr0gramm-api&quot;);</code></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_client_constants_.html">&quot;client-<wbr>constants&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_common_types_.html">&quot;common-<wbr>types&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_index_.html">&quot;index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_pr0gramm_api_.html">&quot;pr0gramm-<wbr>api&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_requester_browser_.html">&quot;requester/browser&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_requester_index_.html">&quot;requester/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_requester_node_.html">&quot;requester/node&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_responses_.html">&quot;responses&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_util_.html">&quot;util&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
