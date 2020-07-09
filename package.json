@@ -17,8 +17,8 @@
   "author": "holzmaster",
   "license": "GPL-3.0",
   "dependencies": {
-    "@types/node": "^13.13.4",
-    "needle": "^2.4.1",
+    "@types/node": "^14.0.20",
+    "needle": "^2.5.0",
     "type2docfx": "^0.10.5",
     "typedoc": "^0.17.8"
   },
@@ -27,6 +27,6 @@
   },
   "devDependencies": {
     "@types/needle": "^2.0.4",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.6"
   }
 }
