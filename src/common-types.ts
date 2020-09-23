@@ -27,6 +27,7 @@ export type Timestamp = UnixTimestamp | Date;
 export type BanDuration = number; // In days
 
 export type Likes = string; // TODO: What is this?
+export type Collection = string;
 export type Pr0grammError = object;
 
 export type Cache = string | null;
