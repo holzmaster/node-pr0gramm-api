@@ -136,6 +136,7 @@ export class Pr0grammItemsService {
 			tags: options.tags ? createTagList(options.tags) : undefined,
 			user: options.user,
 			likes: options.likes,
+			collection: options.collection,
 		};
 	}
 
@@ -175,6 +176,7 @@ export interface GetItemsOptions {
 	tags?: Types.TagContent[];
 	user?: Types.Username;
 	likes?: Types.Likes;
+	collection?: Types.Collection;
 }
 export interface GetItemsNewerOptions extends GetItemsOptions {
 	newer: Types.ItemID;
