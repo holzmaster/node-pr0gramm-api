@@ -469,13 +469,14 @@ export class Pr0grammUserService {
 			clientSecret,
 		}, true);
 	}
+	public getIdentifier(): Promise<Response.GetUserNameResponse> {
+		return this.requester.get(`/user/identifier`);
+	}
 	public getUserName(): Promise<Response.GetUserNameResponse> {
-		const path = `/user/name`;
-		return this.requester.get(path);
+		return this.requester.get(`/user/name`);
 	}
 	public getUserScore(): Promise<Response.GetUserScoreResponse> {
-		const path = `/user/score`;
-		return this.requester.get(path);
+		return this.requester.get(`/user/score`);
 	}
 }
 
