@@ -108,6 +108,10 @@ export interface ConversationResponse extends Pr0grammResponse {
 	atEnd: boolean;
 }
 
+export interface InboxCommentsResponse extends Pr0grammResponse {
+	messages: Types.InboxComments[];
+}
+
 export interface MessagesResponse extends Pr0grammResponse {
 	messages: Types.Message[];
 	atEnd: boolean;

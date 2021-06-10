@@ -294,3 +294,25 @@ export interface Message {
 	created: UnixTimestamp;
 	message: string;
 }
+
+export interface InboxComments {
+	type: string;
+	id: CommentID;
+	itemId: ItemID;
+	image: ImageURL;
+	thumb: ThumbnailURL;
+	flags: ItemFlags;
+	name: Username;
+	mark: UserMark;
+	senderId: UserID;
+	score: Score;
+	collection?: null;
+	owner?: null;
+	ownerMark?: null;
+	keyword?: null;
+	created: Timestamp;
+	message: string;
+	read: number;
+	blocked: number;
+}
+  
