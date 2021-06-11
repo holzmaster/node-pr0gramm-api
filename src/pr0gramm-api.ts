@@ -309,6 +309,16 @@ export class Pr0grammMessageService {
 	constructor(private readonly requester: APIRequester) {
 	}
 
+	public getComments(): Promise<Response.InboxCommentsResponse> {
+		const path = `/inbox/comments`;
+		return this.requester.get(path);
+	}
+
+	public getCommentsOlder(older: Types.Timestamp): Promise<Response.InboxCommentsResponse> {
+		const path = `/inbox/comments`;
+		return this.requester.get(path, { older });
+	}
+
 	public getConversations(): Promise<Response.ConversationResponse> {
 		const path = `/inbox/conversations`;
 		return this.requester.get(path);
