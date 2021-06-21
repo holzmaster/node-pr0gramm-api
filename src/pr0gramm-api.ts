@@ -402,7 +402,9 @@ export class Pr0grammUserService {
 		return this.requester.post(path, undefined, true);
 	}
 
-	public login(name: Types.Username, password: Types.Password, captchaToken: CaptchaResponse["token"], captchaSolution: string): Promise<Response.LogInResponse> {
+	public login(name: Types.Username, password: Types.Password): Promise<Response.LogInResponse>;
+	public login(name: Types.Username, password: Types.Password, captchaToken: CaptchaResponse["token"], captchaSolution: string): Promise<Response.LogInResponse>;
+	public login(name: Types.Username, password: Types.Password, captchaToken?: CaptchaResponse["token"], captchaSolution?: string): Promise<Response.LogInResponse> {
 		const path = `/user/login`;
 		return this.requester.post(path, {
 			name,
