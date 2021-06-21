@@ -409,7 +409,7 @@ export class Pr0grammUserService {
 			password,
 			token: captchaToken,
 			captcha: captchaSolution,
-		}, true);
+		});
 	}
 
 	public logout(id: Types.SessionID): Promise<Response.Pr0grammResponse> {
