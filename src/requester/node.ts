@@ -1,4 +1,6 @@
 import * as needle from "needle";
+import type { NeedleResponse } from "needle";
+
 import { PR0GRAMM_BASE_URL, PR0GRAMM_API_PATH } from "../client-constants";
 import { APIRequester } from "./index";
 import * as Types from "../common-types";
@@ -61,7 +63,7 @@ export class NodeRequester implements APIRequester {
 				this.cookies = res.cookies;
 			if (res.statusCode && 200 <= res.statusCode && res.statusCode < 300)
 				return res.body;
-			throw new Error(res.statusMessage);
+			throw new ApiError(res);
 		});
 	}
 
@@ -105,7 +107,7 @@ export class NodeRequester implements APIRequester {
 				this.cookies = res.cookies;
 			if (res.statusCode && 200 <= res.statusCode && res.statusCode < 300)
 				return res.body;
-			throw new Error(res.statusMessage);
+			throw new ApiError(res);
 		});
 	}
 
@@ -115,7 +117,7 @@ export class NodeRequester implements APIRequester {
 			return null;
 
 		const me = thisCookies?.me;
-		if(me) {
+		if (me) {
 			return JSON.parse(me as string);
 		}
 
@@ -142,5 +144,13 @@ export class NodeRequester implements APIRequester {
 
 		}
 		return null;
+	}
+}
+
+class ApiError extends Error {
+	constructor(
+		public readonly response: Pick<NeedleResponse, "body" | "statusCode" | "statusMessage">,
+	) {
+		super(response.statusMessage);
 	}
 }
