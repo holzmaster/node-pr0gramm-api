@@ -9,7 +9,7 @@ export function ensureUnixTimetamp(v: Types.Timestamp): Types.UnixTimestamp {
 }
 
 export function createTagList(tags: readonly Types.TagContent[]): Types.TagList {
-	return tags.map(str => str.split(" ").join("+")).join(",")
+	return tags.map(tag => tag.split(",")).flat().join(",");
 }
 
 export function createDefaultHeaders(): Record<string, string> {
