@@ -92,6 +92,7 @@ export interface BannedLogInResponse extends SuccessableResponse {
 }
 export interface SuccessfulLogInResponse extends SuccessableResponse {
 	success: true;
+	identifier: string;
 	ban: null;
 }
 export type LogInResponse = SuccessfulLogInResponse | WrongCredentialsLogInResponse | BannedLogInResponse;
