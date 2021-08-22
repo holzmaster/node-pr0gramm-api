@@ -95,10 +95,10 @@ export class Pr0grammItemsService {
 		return this.walkStream(
 			options.older,
 			options, {
-			getNextId: res => res.items[res.items.length - 1].id,
-			shouldContinue: res => !res.atEnd,
-			getItems: (opts, currentId) => this.getItemsOlder({ ...opts, older: currentId }),
-		}
+				getNextId: res => res.items[res.items.length - 1].id,
+				shouldContinue: res => !res.atEnd,
+				getItems: (opts, currentId) => this.getItemsOlder({ ...opts, older: currentId }),
+			}
 		);
 	}
 
