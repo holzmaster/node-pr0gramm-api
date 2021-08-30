@@ -481,7 +481,7 @@ export class Pr0grammUserService {
 			clientSecret,
 		}, true);
 	}
-	public getIdentifier(): Promise<Response.GetUserNameResponse> {
+	public getIdentifier(): Promise<Response.GetIdentifierResponse> {
 		return this.requester.get(`/user/identifier`);
 	}
 	public getUserName(): Promise<Response.GetUserNameResponse> {

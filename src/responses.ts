@@ -124,6 +124,9 @@ export interface AccessTokenResponse extends Pr0grammResponse {
 export interface GetUserNameResponse extends Pr0grammResponse {
 	name: string;
 }
+export interface GetIdentifierResponse extends Pr0grammResponse {
+	identifier: string;
+}
 
 export interface GetUserScoreResponse extends Pr0grammResponse {
 	score: number;
