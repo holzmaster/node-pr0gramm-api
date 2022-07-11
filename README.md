@@ -5,8 +5,8 @@ npm install -S pr0gramm-api
 ```
 
 ## Usage
-TypeScript:
-```TypeScript
+Login with username/password:
+```ts
 import { Pr0grammAPI, NodeRequester, ItemFlags } from "pr0gramm-api";
 
 main();
@@ -38,6 +38,59 @@ async function main() {
     }
 }
 ```
+
+Login with oAuth:
+```ts
+import * as readline from "node:readline/promises";
+import { AuthorizationCode } from "simple-oauth2";
+import { Pr0grammAPI, NodeRequester, ItemFlags } from "pr0gramm-api";
+
+const oAuthAccessCodeClient = new AuthorizationCode({
+    client: {
+        // See above
+        id: "<client_id>",
+        secret: "<client_secret>",
+    },
+    auth: {
+        tokenHost: "https://pr0gramm.com/",
+        tokenPath: "/api/oauth/createAccessToken",
+        authorizePath: "/oauth/authorize",
+    }
+});
+
+main();
+async function main() {
+    const authorizationUri = oAuthAccessCodeClient.authorizeURL({
+        redirect_uri: authCallbackUrl,
+        scope: "items.get",
+        state: "<state>",
+    });
+
+    console.log("Go to this URL and enter the auth code from ?code=<auth code> from the callback URL:");
+    console.log(authorizationUri);
+
+    const rl = readline.createInterface({ process.stdin, process.stdin });
+    const authCode = await rl.question("Auth-Code: ");
+    rl.close();
+
+    const tokenHandler = await oAuthAccessCodeClient.getToken({
+        code: authCode,
+    });
+
+    const requester = NodeRequester.create();
+    requester.setOAuthAccessToken(tokenHandler.token.access_token);
+
+    const api = Pr0grammAPI.create(requester);
+
+    const mainItems = await api.items.getItems({
+        promoted: true,
+        flags: ItemFlags.All
+    });
+
+    console.log(mainItems.items);
+}
+```
+
 
 ### Stream Walker
 The item stream requires you to call the next page of elements. Because it is a common operation to just walk over all items in the stream, there is a stream walker api for convenience:
