@@ -50,6 +50,6 @@ export function addApiKeyToHeader(headers: Readonly<Record<string, string>>, oAu
 	// https://github.com/RundesBalli/pr0gramm-apiCall/blob/e49470faed1bd363c2db4b25f776f6c12d0643a6/apiCall.php#L68-L79
 	return {
 		...headers,
-		"pr0-api-key": oAuthKey,
+		Authorization: `Bearer ${oAuthKey}`,
 	};
 }
