@@ -462,25 +462,6 @@ export class Pr0grammUserService {
 		return this.requester.post(path, { token });
 	}
 
-	/**
-	 * Requests an accessToken for the oAuth login.
-	 * Inspired by the implementation of @RundesBalli:
-	 * https://github.com/RundesBalli/pr0gramm-bondrucker/blob/b43038b713311c14564e941b798edfc67176dda2/public/inc/auth.php#L75-L80
-	 *
-	 * @param authCode The auth code that the pr0Auth API returned.
-	 * @param userId Some cryptic user id, retrieved via the API.
-	 * @param clientId ID of the application that is registered in the backend of pr0gramm.com (if you don't have this, request ask some admin).
-	 * @param clientSecret Secret that is associated with the client id.
-	 */
-	public getAuthToken(authCode: string, userId: string, clientId: string, clientSecret: string): Promise<Response.AccessTokenResponse> {
-		const path = `/user/authtoken`;
-		return this.requester.post(path, {
-			authCode,
-			userId,
-			clientId,
-			clientSecret,
-		}, true);
-	}
 	public getIdentifier(): Promise<Response.GetIdentifierResponse> {
 		return this.requester.get(`/user/identifier`);
 	}
