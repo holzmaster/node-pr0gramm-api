@@ -463,13 +463,16 @@ export class Pr0grammUserService {
 	}
 
 	public getIdentifier(): Promise<Response.GetIdentifierResponse> {
-		return this.requester.get(`/user/identifier`);
+		return this.requester.get("/user/identifier");
 	}
 	public getUserName(): Promise<Response.GetUserNameResponse> {
-		return this.requester.get(`/user/name`);
+		return this.requester.get("/user/name");
 	}
 	public getUserScore(): Promise<Response.GetUserScoreResponse> {
-		return this.requester.get(`/user/score`);
+		return this.requester.get("/user/score");
+	}
+	public getMe(): Promise<Response.GetMeResponse> {
+		return this.requester.get("/user/me");
 	}
 }
 

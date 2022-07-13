@@ -131,3 +131,27 @@ export interface GetIdentifierResponse extends Pr0grammResponse {
 export interface GetUserScoreResponse extends Pr0grammResponse {
 	score: number;
 }
+
+export interface GetMeResponse extends Pr0grammResponse {
+	name: string;
+	registered: Types.Timestamp;
+	identifier: string;
+	mark: Types.UserMark;
+	score: number;
+	banInfo: MeBanInfo;
+}
+
+type MeBanInfo = MeBanInfoNonBanned | MeBanInfoBanned;
+
+interface MeBanInfoBanned {
+	banned: true;
+	/**
+	 * If `bannedUntil` === `null` and `banned` === true, the user is permanently banned.
+	 */
+	bannedUntil: null | Types.Timestamp;
+}
+
+interface MeBanInfoNonBanned {
+	banned: false;
+	bannedUntil: null;
+}
