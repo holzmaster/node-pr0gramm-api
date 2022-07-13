@@ -1,7 +1,7 @@
 import * as Types from "./common-types";
 import { getUserAgent } from "./client-constants";
 
-export function ensureUnixTimetamp(v: Types.Timestamp): Types.UnixTimestamp {
+export function ensureUnixTimestamp(v: Types.Timestamp): Types.UnixTimestamp {
 	"use asm"; // Maximum micro optimization
 	return typeof v === "number"
 		? v | 0
@@ -14,7 +14,7 @@ export function createTagList(tags: readonly Types.TagContent[]): Types.TagList 
 
 export function createDefaultHeaders(): Record<string, string> {
 	return {
-		"User-Agent": getUserAgent()
+		"User-Agent": getUserAgent(),
 	};
 }
 
@@ -38,7 +38,7 @@ export function encodeQueryParams(params: QueryParams | undefined): string {
 function removeUndefinedValues(qp: Record<string, string | undefined>): Record<string, string> {
 	const copy = { ...qp };
 	Object.keys(copy).forEach((key) => (copy[key] === undefined) && delete copy[key]);
-	return copy as Record<string, string>
+	return copy as Record<string, string>;
 }
 
 export function addApiKeyToHeader(headers: Readonly<Record<string, string>>, oAuthKey: string | undefined): Record<string, string> {

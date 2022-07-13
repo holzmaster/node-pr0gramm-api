@@ -1,7 +1,7 @@
 import * as Response from "./responses";
 import * as Types from "./common-types";
 import { APIRequester } from "./requester";
-import { ensureUnixTimetamp, createTagList } from "./util";
+import { ensureUnixTimestamp, createTagList } from "./util";
 
 /**
  * A set of APIs to interact with pr0gramm. Its design is based on the API the site uses.
@@ -187,14 +187,14 @@ export class Pr0grammProfileService {
 		return this.requester.get("/profile/comments", {
 			name,
 			flags,
-			before: ensureUnixTimetamp(before),
+			before: ensureUnixTimestamp(before),
 		});
 	}
 	getCommentsAfter(name: Types.Username, flags: Types.ItemFlags, after: Types.Timestamp): Promise<Response.GetCommentsResponse> {
 		return this.requester.get("/profile/comments", {
 			name,
 			flags,
-			after: ensureUnixTimetamp(after),
+			after: ensureUnixTimestamp(after),
 		});
 	}
 
