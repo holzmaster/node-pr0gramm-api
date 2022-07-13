@@ -9,16 +9,16 @@ import { ensureUnixTimetamp, createTagList } from "./util";
  * If you don't need the whole API, you can instantiate the services yourself (e. g. Pr0grammItemsService).
  */
 export class Pr0grammAPI {
-	public readonly items: Pr0grammItemsService;
-	public readonly tags: Pr0grammTagsService;
-	public readonly messages: Pr0grammMessageService;
-	public readonly comments: Pr0grammCommentsService;
-	public readonly profile: Pr0grammProfileService;
-	public readonly contact: Pr0grammContactService;
-	public readonly user: Pr0grammUserService;
+	readonly items: Pr0grammItemsService;
+	readonly tags: Pr0grammTagsService;
+	readonly messages: Pr0grammMessageService;
+	readonly comments: Pr0grammCommentsService;
+	readonly profile: Pr0grammProfileService;
+	readonly contact: Pr0grammContactService;
+	readonly user: Pr0grammUserService;
 
 	private constructor(
-		public readonly requester: APIRequester,
+		readonly requester: APIRequester,
 	) {
 		this.items = new Pr0grammItemsService(requester);
 		this.tags = new Pr0grammTagsService(requester);
@@ -29,7 +29,7 @@ export class Pr0grammAPI {
 		this.user = new Pr0grammUserService(requester);
 	}
 
-	public static create(requester: APIRequester): Pr0grammAPI {
+	static create(requester: APIRequester): Pr0grammAPI {
 		return new Pr0grammAPI(requester);
 	}
 }
@@ -38,37 +38,37 @@ export class Pr0grammAPI {
 export class Pr0grammItemsService {
 	constructor(private readonly requester: APIRequester) { }
 
-	public delete(options: DeleteItemOptions): Promise<Response.Pr0grammResponse> {
+	delete(options: DeleteItemOptions): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/items/delete", options);
 	}
 
-	public getInfo(itemId: Types.ItemID): Promise<Response.GetItemsInfoResponse> {
+	getInfo(itemId: Types.ItemID): Promise<Response.GetItemsInfoResponse> {
 		return this.requester.get("/items/info", { itemId });
 	}
 
-	public getItems(options: GetItemsOptions): Promise<Response.GetItemsResponse> {
+	getItems(options: GetItemsOptions): Promise<Response.GetItemsResponse> {
 		return this.requester.get("/items/get", Pr0grammItemsService.parseRawGetItemsOptions(options));
 	}
-	public getItemsNewer(options: GetItemsNewerOptions): Promise<Response.GetItemsResponse> {
+	getItemsNewer(options: GetItemsNewerOptions): Promise<Response.GetItemsResponse> {
 		return this.requester.get("/items/get", {
 			newer: options.newer,
 			...Pr0grammItemsService.parseRawGetItemsOptions(options),
 		});
 	}
-	public getItemsOlder(options: GetItemsOlderOptions): Promise<Response.GetItemsResponse> {
+	getItemsOlder(options: GetItemsOlderOptions): Promise<Response.GetItemsResponse> {
 		return this.requester.get("/items/get", {
 			older: options.older,
 			...Pr0grammItemsService.parseRawGetItemsOptions(options),
 		});
 	}
-	public getItemsAround(options: GetItemsAroundOptions): Promise<Response.GetItemsResponse> {
+	getItemsAround(options: GetItemsAroundOptions): Promise<Response.GetItemsResponse> {
 		return this.requester.get("/items/get", {
 			id: options.around,
 			...Pr0grammItemsService.parseRawGetItemsOptions(options),
 		});
 	}
 
-	public walkStreamNewer(options: GetItemsNewerOptions): AsyncIterableIterator<Types.Item> {
+	walkStreamNewer(options: GetItemsNewerOptions): AsyncIterableIterator<Types.Item> {
 		return this.walkStream(
 			options.newer,
 			options, {
@@ -78,7 +78,7 @@ export class Pr0grammItemsService {
 		}
 		);
 	}
-	public walkStreamOlder(options: GetItemsOlderOptions): AsyncIterableIterator<Types.Item> {
+	walkStreamOlder(options: GetItemsOlderOptions): AsyncIterableIterator<Types.Item> {
 		return this.walkStream(
 			options.older,
 			options, {
@@ -89,7 +89,7 @@ export class Pr0grammItemsService {
 		);
 	}
 
-	public async *walkStream(start: Types.ItemID, options: GetItemsOptions, functions: WalkStreamFunctions): AsyncIterableIterator<Types.Item> {
+	async *walkStream(start: Types.ItemID, options: GetItemsOptions, functions: WalkStreamFunctions): AsyncIterableIterator<Types.Item> {
 		const fns = { ...functions }; // defensive copy
 
 		let currentId = start;
@@ -127,13 +127,13 @@ export class Pr0grammItemsService {
 		};
 	}
 
-	public vote(id: Types.ItemID, absoluteVote: Types.Vote): Promise<Response.Pr0grammResponse> {
+	vote(id: Types.ItemID, absoluteVote: Types.Vote): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/items/vote", {
 			id,
 			vote: absoluteVote,
 		});
 	}
-	public rateLimited(): Promise<Response.Pr0grammResponse> {
+	rateLimited(): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/items/ratelimited");
 	}
 
@@ -183,14 +183,14 @@ export interface WalkStreamFunctions {
 export class Pr0grammProfileService {
 	constructor(private readonly requester: APIRequester) { }
 
-	public getCommentsBefore(name: Types.Username, flags: Types.ItemFlags, before: Types.Timestamp): Promise<Response.GetCommentsResponse> {
+	getCommentsBefore(name: Types.Username, flags: Types.ItemFlags, before: Types.Timestamp): Promise<Response.GetCommentsResponse> {
 		return this.requester.get("/profile/comments", {
 			name,
 			flags,
 			before: ensureUnixTimetamp(before),
 		});
 	}
-	public getCommentsAfter(name: Types.Username, flags: Types.ItemFlags, after: Types.Timestamp): Promise<Response.GetCommentsResponse> {
+	getCommentsAfter(name: Types.Username, flags: Types.ItemFlags, after: Types.Timestamp): Promise<Response.GetCommentsResponse> {
 		return this.requester.get("/profile/comments", {
 			name,
 			flags,
@@ -198,14 +198,14 @@ export class Pr0grammProfileService {
 		});
 	}
 
-	public follow(name: Types.Username): Promise<Response.Pr0grammResponse> {
+	follow(name: Types.Username): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/profile/follow", { name });
 	}
-	public unfollow(name: Types.Username): Promise<Response.Pr0grammResponse> {
+	unfollow(name: Types.Username): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/profile/unfollow", { name });
 	}
 
-	public getInfo(name: Types.Username, flags: Types.ItemFlags): Promise<Response.GetProfileInfoResponse> {
+	getInfo(name: Types.Username, flags: Types.ItemFlags): Promise<Response.GetProfileInfoResponse> {
 		return this.requester.get("/profile/info", { name, flags });
 	}
 }
@@ -213,21 +213,21 @@ export class Pr0grammProfileService {
 export class Pr0grammCommentsService {
 	constructor(private readonly requester: APIRequester) { }
 
-	public delete(id: Types.CommentID, reason: string): Promise<Response.Pr0grammResponse> {
+	delete(id: Types.CommentID, reason: string): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/comments/delete", { id, reason });
 	}
-	public softDelete(id: Types.CommentID, reason: string): Promise<Response.Pr0grammResponse> {
+	softDelete(id: Types.CommentID, reason: string): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/comments/softDelete", { id, reason });
 	}
-	public edit(id: Types.CommentID, newContent: string): Promise<Response.Pr0grammResponse> {
+	edit(id: Types.CommentID, newContent: string): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/comments/edit", { commentId: id, comment: newContent });
 	}
 
-	public vote(id: Types.CommentID, absoluteVote: Types.Vote): Promise<Response.Pr0grammResponse> {
+	vote(id: Types.CommentID, absoluteVote: Types.Vote): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/comments/vote", { id, vote: absoluteVote, });
 	}
 
-	public post(itemId: Types.ItemID, content: string, replyTo: Types.CommentID = 0): Promise<Response.Pr0grammResponse> {
+	post(itemId: Types.ItemID, content: string, replyTo: Types.CommentID = 0): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/comments/post", {
 			comment: content,
 			itemId,
@@ -241,7 +241,7 @@ export class Pr0grammTagsService {
 		private readonly requester: APIRequester,
 	) { }
 
-	public add(itemId: Types.ItemID, tags: readonly Types.TagContent[]): Promise<Response.Pr0grammResponse> {
+	add(itemId: Types.ItemID, tags: readonly Types.TagContent[]): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/tags/add", {
 			itemId,
 			tags: createTagList(tags),
@@ -250,15 +250,15 @@ export class Pr0grammTagsService {
 	}
 
 	/** TODO: This may not work */
-	public delete(itemId: Types.ItemID, banUsers: boolean, days: Types.BanDuration, tags: readonly Types.TagContent[]): Promise<Response.Pr0grammResponse> {
+	delete(itemId: Types.ItemID, banUsers: boolean, days: Types.BanDuration, tags: readonly Types.TagContent[]): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/tags/delete", { itemId, tags, banUsers, days });
 	}
 
-	public getDetails(itemId: Types.ItemID): Promise<Response.GetDetailsResponse> {
+	getDetails(itemId: Types.ItemID): Promise<Response.GetDetailsResponse> {
 		return this.requester.get("/tags/details", { itemId });
 	}
 
-	public vote(id: Types.TagID, absoluteVote: Types.Vote): Promise<Response.Pr0grammResponse> {
+	vote(id: Types.TagID, absoluteVote: Types.Vote): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/tags/vote", { id, vote: absoluteVote });
 	}
 }
@@ -266,7 +266,7 @@ export class Pr0grammTagsService {
 export class Pr0grammContactService {
 	constructor(private readonly requester: APIRequester) { }
 
-	public send(email: Types.Email, subject: string, message: string): Promise<Response.Pr0grammResponse> {
+	send(email: Types.Email, subject: string, message: string): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/contact/send", { email, subject, message });
 	}
 }
@@ -275,27 +275,27 @@ export class Pr0grammMessageService {
 	constructor(private readonly requester: APIRequester) {
 	}
 
-	public getComments(): Promise<Response.InboxCommentsResponse> {
+	getComments(): Promise<Response.InboxCommentsResponse> {
 		return this.requester.get("/inbox/comments");
 	}
 
-	public getCommentsOlder(older: Types.Timestamp): Promise<Response.InboxCommentsResponse> {
+	getCommentsOlder(older: Types.Timestamp): Promise<Response.InboxCommentsResponse> {
 		return this.requester.get("/inbox/comments", { older });
 	}
 
-	public getConversations(): Promise<Response.ConversationResponse> {
+	getConversations(): Promise<Response.ConversationResponse> {
 		return this.requester.get("/inbox/conversations");
 	}
 
-	public getConversationsOlder(older: Types.ConversationID): Promise<Response.ConversationResponse> {
+	getConversationsOlder(older: Types.ConversationID): Promise<Response.ConversationResponse> {
 		return this.requester.get("/inbox/conversations", { older });
 	}
 
-	public getMessages(user: Types.Username): Promise<Response.MessagesResponse> {
+	getMessages(user: Types.Username): Promise<Response.MessagesResponse> {
 		return this.requester.get("/inbox/messages", { with: user });
 	}
 
-	public sendMessage(recipientName: Types.Username, comment: Types.MessageComment): Promise<Response.MessagesResponse> {
+	sendMessage(recipientName: Types.Username, comment: Types.MessageComment): Promise<Response.MessagesResponse> {
 		return this.requester.post("/inbox/post", { recipientName, comment });
 	}
 }
@@ -304,56 +304,56 @@ export class Pr0grammUserService {
 	constructor(private readonly requester: APIRequester) {
 	}
 
-	public ban(user: Types.Username, reason: string, days: Types.BanDuration): Promise<Response.Pr0grammResponse> {
+	ban(user: Types.Username, reason: string, days: Types.BanDuration): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/user/ban", { user, reason, days });
 	}
-	public changeEmail(token: Types.ChangeEmailToken): Promise<Response.ChangeUserDataResponse> {
+	changeEmail(token: Types.ChangeEmailToken): Promise<Response.ChangeUserDataResponse> {
 		return this.requester.post("/user/changeemail", { token });
 	}
-	public changePassword(newPassword: Types.Password): Promise<Response.ChangeUserDataResponse> {
+	changePassword(newPassword: Types.Password): Promise<Response.ChangeUserDataResponse> {
 		return this.requester.post("/user/changepassword", { password: newPassword });
 	}
 
-	public getFollowList(flags: Types.ItemFlags): Promise<Response.GetFollowListReponse> {
+	getFollowList(flags: Types.ItemFlags): Promise<Response.GetFollowListReponse> {
 		return this.requester.get("/user/followlist", { flags });
 	}
 
-	public getInfo(): Promise<Response.GetUserInfoResponse> {
+	getInfo(): Promise<Response.GetUserInfoResponse> {
 		return this.requester.get("/user/info");
 	}
 
-	public invite(email: Types.Email): Promise<Response.ChangeUserDataResponse> {
+	invite(email: Types.Email): Promise<Response.ChangeUserDataResponse> {
 		return this.requester.post("/user/invite", { email });
 	}
 
 	/**
 	 * ????
 	 */
-	public joinWithInvite(token: Types.InviteToken, email: Types.Email, password: Types.Password, name: Types.Username): Promise<Response.ChangeUserDataResponse> {
+	joinWithInvite(token: Types.InviteToken, email: Types.Email, password: Types.Password, name: Types.Username): Promise<Response.ChangeUserDataResponse> {
 		return this.requester.post("/user/joinwithinvite", { token, email, password, name });
 	}
 	/**
 	 * ????
 	 */
-	public joinWithToken(token: Types.InviteToken, email: Types.Email, password: Types.Password, name: Types.Username): Promise<Response.TokenResponse> {
+	joinWithToken(token: Types.InviteToken, email: Types.Email, password: Types.Password, name: Types.Username): Promise<Response.TokenResponse> {
 		return this.requester.post("/user/joinwithtoken", { token, email, password, name });
 	}
 
-	public loadInvite(token: Types.InviteToken): Promise<Response.LoadInviteResponse> {
+	loadInvite(token: Types.InviteToken): Promise<Response.LoadInviteResponse> {
 		return this.requester.get("/user/loadinvite", { token });
 	}
 
-	public loadPaymentToken(token: Types.PaymentToken): Promise<Response.TokenInfoResponse> {
+	loadPaymentToken(token: Types.PaymentToken): Promise<Response.TokenInfoResponse> {
 		return this.requester.post("/user/loadpaymenttoken", { token });
 	}
 
-	public requestCaptcha(): Promise<CaptchaResponse> {
+	requestCaptcha(): Promise<CaptchaResponse> {
 		return this.requester.post("/user/captcha", undefined, true);
 	}
 
-	public login(name: Types.Username, password: Types.Password): Promise<Response.LogInResponse>;
-	public login(name: Types.Username, password: Types.Password, captchaToken: CaptchaResponse["token"], captchaSolution: string): Promise<Response.LogInResponse>;
-	public login(name: Types.Username, password: Types.Password, captchaToken?: CaptchaResponse["token"], captchaSolution?: string): Promise<Response.LogInResponse> {
+	login(name: Types.Username, password: Types.Password): Promise<Response.LogInResponse>;
+	login(name: Types.Username, password: Types.Password, captchaToken: CaptchaResponse["token"], captchaSolution: string): Promise<Response.LogInResponse>;
+	login(name: Types.Username, password: Types.Password, captchaToken?: CaptchaResponse["token"], captchaSolution?: string): Promise<Response.LogInResponse> {
 		return this.requester.post("/user/login", {
 			name,
 			password,
@@ -362,30 +362,30 @@ export class Pr0grammUserService {
 		}, true);
 	}
 
-	public logout(id: Types.SessionID): Promise<Response.Pr0grammResponse> {
+	logout(id: Types.SessionID): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/user/logout", { id });
 	}
 
 	/**
 	 * ????
 	 */
-	public redeemToken(token: Types.InviteToken): Promise<Response.TokenResponse> {
+	redeemToken(token: Types.InviteToken): Promise<Response.TokenResponse> {
 		return this.requester.post("/user/redeemtoken", { token });
 	}
 
-	public requestEmailChange(newEmail: Types.Email): Promise<Response.ChangeUserDataResponse> {
+	requestEmailChange(newEmail: Types.Email): Promise<Response.ChangeUserDataResponse> {
 		return this.requester.post("/user/requestemailchange", { email: newEmail });
 	}
 
-	public resetPassword(name: Types.Username, password: Types.Password, token: Types.ChangePasswordToken): Promise<Response.ChangeUserDataResponse> {
+	resetPassword(name: Types.Username, password: Types.Password, token: Types.ChangePasswordToken): Promise<Response.ChangeUserDataResponse> {
 		return this.requester.post("/user/resetpassword", { name, password, token });
 	}
 
-	public sendPasswordResetMail(email: Types.Email): Promise<Response.Pr0grammResponse> {
+	sendPasswordResetMail(email: Types.Email): Promise<Response.Pr0grammResponse> {
 		return this.requester.post("/user/sendpasswordresetmail", { email }, true);
 	}
 
-	public setSiteSettings(siteSettings: SiteSettingsOptions): Promise<Response.ChangeUserDataResponse> {
+	setSiteSettings(siteSettings: SiteSettingsOptions): Promise<Response.ChangeUserDataResponse> {
 		const options = {
 			likesArePublic: siteSettings.likesArePublic,
 			showAds: siteSettings.showAds,
@@ -394,24 +394,24 @@ export class Pr0grammUserService {
 		return this.requester.post("/user/sitesettings", options);
 	}
 
-	public sync(offset: Types.SyncID): Promise<Response.SyncResponse> {
+	sync(offset: Types.SyncID): Promise<Response.SyncResponse> {
 		return this.requester.get("/user/sync", { offset });
 	}
 
-	public validate(token: Types.Token): Promise<Response.SuccessableResponse> {
+	validate(token: Types.Token): Promise<Response.SuccessableResponse> {
 		return this.requester.post("/user/validate", { token });
 	}
 
-	public getIdentifier(): Promise<Response.GetIdentifierResponse> {
+	getIdentifier(): Promise<Response.GetIdentifierResponse> {
 		return this.requester.get("/user/identifier");
 	}
-	public getUserName(): Promise<Response.GetUserNameResponse> {
+	getUserName(): Promise<Response.GetUserNameResponse> {
 		return this.requester.get("/user/name");
 	}
-	public getUserScore(): Promise<Response.GetUserScoreResponse> {
+	getUserScore(): Promise<Response.GetUserScoreResponse> {
 		return this.requester.get("/user/score");
 	}
-	public getMe(): Promise<Response.GetMeResponse> {
+	getMe(): Promise<Response.GetMeResponse> {
 		return this.requester.get("/user/me");
 	}
 }
