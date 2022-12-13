@@ -53,7 +53,7 @@ export class NodeRequester implements APIRequester {
 			url,
 			null, {
 			cookies: this.cookies || undefined,
-			follow_set_cookie: true,
+			follow_set_cookies: true,
 			headers,
 			parse_response: "json",
 			parse_cookies: true,
@@ -96,7 +96,7 @@ export class NodeRequester implements APIRequester {
 			body,
 			{
 				cookies: this.cookies || undefined,
-				follow_set_cookie: true,
+				follow_set_cookies: true,
 				headers,
 				parse_response: "json",
 				parse_cookies: true,
