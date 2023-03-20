@@ -7,6 +7,9 @@ on:
     tags:
     - "v*"
 
+env:
+  CI: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,7 +26,6 @@ jobs:
     - run: npm ci
     - run: npm run compile
     - run: npm test
-      env:
-        CI: true
-    - run: npm config set "//registry.npmjs.org/:_authToken" "${{ secrets.NPM_TOKEN }}"
     - run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
