@@ -22,7 +22,7 @@
     "needle": "^3.2.0"
   },
   "engines": {
-    "node": ">=16.17.0"
+    "node": ">=18.15.0"
   },
   "devDependencies": {
     "@types/needle": "^3.2.0",
