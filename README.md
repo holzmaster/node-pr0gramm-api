@@ -69,7 +69,10 @@ async function main() {
     console.log("Go to this URL and enter the auth code from ?code=<auth code> from the callback URL:");
     console.log(authorizationUri);
 
-    const rl = readline.createInterface({ process.stdin, process.stdin });
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdin,
+    });
     const authCode = await rl.question("Auth-Code: ");
     rl.close();
 
