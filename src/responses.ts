@@ -155,3 +155,7 @@ interface MeBanInfoNonBanned {
 	banned: false;
 	bannedUntil: null;
 }
+
+export interface PostCommentResponse extends Pr0grammResponse {
+	commentId: Types.CommentID;
+}

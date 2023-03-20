@@ -227,7 +227,7 @@ export class Pr0grammCommentsService {
 		return this.requester.post("/comments/vote", { id, vote: absoluteVote, });
 	}
 
-	post(itemId: Types.ItemID, content: string, replyTo: Types.CommentID = 0): Promise<Response.Pr0grammResponse> {
+	post(itemId: Types.ItemID, content: string, replyTo: Types.CommentID = 0): Promise<Response.PostCommentResponse> {
 		return this.requester.post("/comments/post", {
 			comment: content,
 			itemId,
