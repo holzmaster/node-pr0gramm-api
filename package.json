@@ -7,7 +7,7 @@
   "scripts": {
     "compile": "tsc",
     "test": "tsc --noEmit",
-    "build-docs": "typedoc --mode modules --out _site",
+    "build-docs": "typedoc --out _site src/index.ts",
     "prepublishOnly": "npm run compile"
   },
   "keywords": [
