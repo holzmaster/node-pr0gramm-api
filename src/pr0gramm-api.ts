@@ -275,6 +275,10 @@ export class Pr0grammMessageService {
 	constructor(private readonly requester: APIRequester) {
 	}
 
+	deleteConversation(recipientName: Types.Username): Promise<Response.Pr0grammResponse> {
+        return this.requester.post("/inbox/deleteConversation", { recipientName });
+    }
+
 	getComments(): Promise<Response.InboxCommentsResponse> {
 		return this.requester.get("/inbox/comments");
 	}
