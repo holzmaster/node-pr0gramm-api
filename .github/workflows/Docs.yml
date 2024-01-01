@@ -15,7 +15,7 @@ jobs:
       - name: Build Docs
         run: npm ci && npm run build-docs
 
-      - uses: actions/upload-pages-artifact@v2
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: ./_site
 
