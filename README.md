@@ -1,3 +1,7 @@
+# Archiviert am 2025-03-29
+benutz was anderes
+
+
 # pr0gramm-api [![Build Status](https://travis-ci.com/holzmaster/node-pr0gramm-api.svg?branch=master)](https://travis-ci.com/holzmaster/node-pr0gramm-api)
 A Node.js API for pr0gramm written in TypeScript.
 ```Shell
